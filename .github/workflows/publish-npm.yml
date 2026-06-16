@@ -21,9 +21,11 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
 
-      - name: Read package version
+      - name: Read package metadata
         id: package
-        run: echo "version=$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "version=$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")" >> "$GITHUB_OUTPUT"
+          echo "name=$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).name")" >> "$GITHUB_OUTPUT"
 
       - name: Check if version is already published
         id: check
@@ -31,9 +33,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           LOCAL_VERSION="${{ steps.package.outputs.version }}"
+          PACKAGE_NAME="${{ steps.package.outputs.name }}"
           TAG="v${LOCAL_VERSION}"
-          PUBLISHED_VERSION="$(npm view harness-engineering-skills version 2>/dev/null || true)"
+          PUBLISHED_VERSION="$(npm view "${PACKAGE_NAME}" version 2>/dev/null || true)"
           echo "local=$LOCAL_VERSION" >> "$GITHUB_OUTPUT"
+          echo "name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "published=$PUBLISHED_VERSION" >> "$GITHUB_OUTPUT"
           if [ "$LOCAL_VERSION" = "$PUBLISHED_VERSION" ]; then
@@ -41,7 +45,7 @@ jobs:
             echo "Version $LOCAL_VERSION is already on npm. Skipping publish."
           else
             echo "should_publish=true" >> "$GITHUB_OUTPUT"
-            echo "Will publish version $LOCAL_VERSION (npm has: ${PUBLISHED_VERSION:-none})."
+            echo "Will publish ${PACKAGE_NAME}@${LOCAL_VERSION} (npm has: ${PUBLISHED_VERSION:-none})."
           fi
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag_exists=true" >> "$GITHUB_OUTPUT"
@@ -73,11 +77,11 @@ jobs:
             ## Install
 
             ```bash
-            npx harness-engineering-skills@${{ steps.check.outputs.local }} install
-            npx harness-engineering-skills@${{ steps.check.outputs.local }} create --target .
-            npx harness-engineering-skills@${{ steps.check.outputs.local }} validate --target .
+            npx harness-skills@${{ steps.check.outputs.local }} install
+            npx harness-skills@${{ steps.check.outputs.local }} create --target .
+            npx harness-skills@${{ steps.check.outputs.local }} validate --target .
             ```
 
             ## npm
 
-            https://www.npmjs.com/package/harness-engineering-skills/v/${{ steps.check.outputs.local }}
+            https://www.npmjs.com/package/${{ steps.check.outputs.name }}/v/${{ steps.check.outputs.local }}

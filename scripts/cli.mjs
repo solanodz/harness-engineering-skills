@@ -12,12 +12,13 @@ import { printInstallSuccess, resolveInstallOptions } from './lib/prompt-install
 
 const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PACKAGE_VERSION = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version;
+const PACKAGE_NAME = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).name;
 
-const HELP = `harness-engineering-skills — CLI for Harness Engineering skills and project harnesses
+const HELP = `${PACKAGE_NAME} — CLI for Harness Engineering skills and project harnesses
 
 Usage:
-  harness-engineering-skills <command> [options]
-  npx harness-engineering-skills <command> [options]
+  harness-skills <command> [options]
+  npx harness-skills <command> [options]
 
 Commands:
   install    Copy skills into Cursor (~/.cursor/skills or project .cursor/skills)
@@ -28,9 +29,9 @@ Commands:
   help       Show this help
 
 Install:
-  harness-engineering-skills install [--global|--project] [--dest DIR]
-                                     [--skills name,name] [--force]
-                                     [--yes] [--no-interactive]
+  harness-skills install [--global|--project] [--dest DIR]
+                         [--skills name,name] [--force]
+                         [--yes] [--no-interactive]
 
   --global           Install to ~/.cursor/skills (default)
   --project          Install to ./.cursor/skills in the current directory
@@ -41,23 +42,26 @@ Install:
   --no-interactive   Same as --yes (for CI)
 
 Create:
-  harness-engineering-skills create [--target DIR] [--agent-file AGENTS.md|CLAUDE.md]
-                                    [--package-manager npm|pnpm|yarn|bun]
-                                    [--commands "cmd one,cmd two"] [--force]
+  harness-skills create [--target DIR] [--agent-file AGENTS.md|CLAUDE.md]
+                        [--package-manager npm|pnpm|yarn|bun]
+                        [--commands "cmd one,cmd two"] [--force]
 
 Validate:
-  harness-engineering-skills validate [--target DIR] [--json] [--html FILE]
-                                      [--min-score 70]
+  harness-skills validate [--target DIR] [--json] [--html FILE]
+                          [--min-score 70]
 
 Report:
-  harness-engineering-skills report [--target DIR] [--output FILE]
+  harness-skills report [--target DIR] [--output FILE]
 
 Examples:
-  npx harness-engineering-skills install
-  npx harness-engineering-skills install --project
-  npx harness-engineering-skills create --target .
-  npx harness-engineering-skills validate --target .
+  npx harness-skills install
+  npx harness-skills install --project
+  npx harness-skills create --target .
+  npx harness-skills validate --target .
   npx github:solanodz/harness-engineering-skills install
+
+Legacy npm name (still works):
+  npx harness-engineering-skills install
 `;
 
 async function runList() {

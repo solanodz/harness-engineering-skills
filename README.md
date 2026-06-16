@@ -8,10 +8,8 @@ A **harness** does not make the model smarter: it establishes a closed-loop work
 
 ### Option 1 — npx (recommended)
 
-Install skills into Cursor globally:
-
 ```bash
-npx harness-engineering-skills install
+npx harness-skills install
 ```
 
 This opens an **interactive picker** (all skills selected by default). Use ↑/↓, Space to toggle, `a` for all, `n` for none, Enter to confirm.
@@ -19,32 +17,28 @@ This opens an **interactive picker** (all skills selected by default). Use ↑/�
 Install all skills without prompts:
 
 ```bash
-npx harness-engineering-skills install --yes
+npx harness-skills install --yes
 ```
 
 Install skills for the current project only:
 
 ```bash
-npx harness-engineering-skills install --project
+npx harness-skills install --project
 ```
 
 Install a subset without the picker:
 
 ```bash
-npx harness-engineering-skills install --skills harness-scaffold,harness-audit
+npx harness-skills install --skills harness-scaffold,harness-audit
 ```
 
-Install from GitHub before the package is on npm:
+Install from GitHub:
 
 ```bash
 npx github:solanodz/harness-engineering-skills install
 ```
 
-After the first npm release:
-
-```bash
-npx harness-engineering-skills install
-```
+> **Note:** The npm package is `harness-skills`. The name `harness-engineering` is taken on npm by another project. The legacy name `harness-engineering-skills` still works for existing installs.
 
 ### Option 2 — Manual copy
 
@@ -86,7 +80,7 @@ Link globally once (optional):
 
 ```bash
 npm link
-harness-engineering-skills install
+harness-skills install
 ```
 
 ## CLI
@@ -103,22 +97,22 @@ After publishing to npm (or via `npx github:...`), use the bundled CLI:
 
 ```bash
 # Install all skills globally (interactive picker)
-npx harness-engineering-skills install
+npx harness-skills install
 
 # Install all skills without prompts
-npx harness-engineering-skills install --yes
+npx harness-skills install --yes
 
 # Install selected skills into the current project
-npx harness-engineering-skills install --project --skills harness-scaffold,harness-audit
+npx harness-skills install --project --skills harness-scaffold,harness-audit
 
 # Create harness in the current directory
-npx harness-engineering-skills create --target .
+npx harness-skills create --target .
 
 # Audit harness
-npx harness-engineering-skills validate --target .
+npx harness-skills validate --target .
 
 # HTML report
-npx harness-engineering-skills report --target .
+npx harness-skills report --target .
 ```
 
 ### Install flags
@@ -140,10 +134,10 @@ npx harness-engineering-skills report --target .
 ## Using skills in a project
 
 ```
-1. npx harness-engineering-skills install
-2. npx harness-engineering-skills create --target /path/to/project
+1. npx harness-skills install
+2. npx harness-skills create --target /path/to/project
 3. In Cursor: "Use harness-scaffold — replace example features with real ones"
-4. npx harness-engineering-skills validate --target /path/to/project
+4. npx harness-skills validate --target /path/to/project
 5. Improve weak subsystems with the matching skill (see learning path below)
 ```
 
