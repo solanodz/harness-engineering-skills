@@ -14,10 +14,24 @@ Install skills into Cursor globally:
 npx harness-engineering-skills install
 ```
 
+This opens an **interactive picker** (all skills selected by default). Use ↑/↓, Space to toggle, `a` for all, `n` for none, Enter to confirm.
+
+Install all skills without prompts:
+
+```bash
+npx harness-engineering-skills install --yes
+```
+
 Install skills for the current project only:
 
 ```bash
 npx harness-engineering-skills install --project
+```
+
+Install a subset without the picker:
+
+```bash
+npx harness-engineering-skills install --skills harness-scaffold,harness-audit
 ```
 
 Install from GitHub before the package is on npm:
@@ -51,15 +65,18 @@ After publishing to npm (or via `npx github:...`), use the bundled CLI:
 
 | Command | Purpose |
 |---------|---------|
-| `install` | Copy skills to `~/.cursor/skills` or `.cursor/skills` |
+| `install` | Copy skills to `~/.cursor/skills` or `.cursor/skills` (interactive by default) |
 | `create` | Scaffold harness files in a target project |
 | `validate` | Score a project harness (exit 1 if below threshold) |
 | `report` | Write an HTML assessment report |
 | `list` | List available skills in the package |
 
 ```bash
-# Install all skills globally
+# Install all skills globally (interactive picker)
 npx harness-engineering-skills install
+
+# Install all skills without prompts
+npx harness-engineering-skills install --yes
 
 # Install selected skills into the current project
 npx harness-engineering-skills install --project --skills harness-scaffold,harness-audit

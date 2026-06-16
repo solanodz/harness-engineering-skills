@@ -28,7 +28,7 @@ jobs:
           node scripts/cli.mjs validate --target /tmp/harness-smoke --min-score 70
 
       - name: Install skills to temp dir
-        run: node scripts/cli.mjs install --dest /tmp/cursor-skills --force
+        run: node scripts/cli.mjs install --yes --dest /tmp/cursor-skills --force
 
       - name: Verify npm package contents
         run: npm pack --dry-run

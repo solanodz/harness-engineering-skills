@@ -56,17 +56,3 @@ export async function installSkills(options = {}) {
 
   return { dest, selected, results, scope: project ? 'project' : 'global' };
 }
-
-export function printInstallSkillsResult({ dest, selected, results, scope }) {
-  const written = results.filter((result) => result.status === 'written').length;
-  const skipped = results.filter((result) => result.status === 'skipped').length;
-  console.log(`Skills destination: ${dest} (${scope})`);
-  console.log(`Selected: ${selected.length} | Installed: ${written} | Skipped: ${skipped}`);
-  for (const result of results) {
-    const suffix = result.reason ? ` (${result.reason})` : '';
-    console.log(`  ${result.status.toUpperCase()} ${result.skill}${suffix}`);
-  }
-  console.log('');
-  console.log('In Cursor, invoke a skill explicitly, for example:');
-  console.log('  "Use harness-scaffold to set up this project"');
-}
