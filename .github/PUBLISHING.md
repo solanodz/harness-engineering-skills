@@ -2,10 +2,26 @@
 
 This repo publishes automatically when a new version lands on `master`.
 
+## Package name
+
+The npm package is **`harness-skills`**.
+
+```bash
+npx harness-skills install
+```
+
+The legacy name `harness-engineering-skills` still works for older installs. After publishing `harness-skills`, deprecate the old name once:
+
+```bash
+npm deprecate harness-engineering-skills "Renamed to harness-skills. Use: npx harness-skills install"
+```
+
+The name `harness-engineering` is owned by another project on npm and cannot be used.
+
 ## One-time setup
 
-1. Create an npm account and ensure you own the `harness-engineering-skills` package name.
-2. Create an npm **Automation** or **Publish** token at https://www.npmjs.com/settings/~your-user/tokens
+1. Create an npm account and ensure you can publish `harness-skills`.
+2. Create an npm **Automation** token at https://www.npmjs.com/settings/~your-user/tokens
 3. Add it to GitHub repo secrets as `NPM_TOKEN`:
    - Repository → Settings → Secrets and variables → Actions → New repository secret
 
@@ -21,23 +37,13 @@ No extra secret is needed for GitHub Releases — the workflow uses the built-in
    - Publishes to npm with provenance
    - Creates git tag `v{version}` and a GitHub Release with auto-generated notes
 
-Example: version `1.1.0` → tag `v1.1.0` → https://github.com/solanodz/harness-engineering-skills/releases/tag/v1.1.0
-
 ## Manual publish trigger
 
 Actions → **Publish npm** → **Run workflow**
 
-Useful after fixing a failed publish without changing `package.json`.
-
 ## Verify after publish
 
 ```bash
-npx harness-engineering-skills@latest install
-npx harness-engineering-skills@latest list
-```
-
-Or pin the release version:
-
-```bash
-npx harness-engineering-skills@1.1.0 install
+npx harness-skills@latest install
+npx harness-skills@latest list
 ```

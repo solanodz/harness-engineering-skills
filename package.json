@@ -1,12 +1,12 @@
 {
-  "name": "harness-engineering-skills",
-  "version": "1.2.0",
+  "name": "harness-skills",
+  "version": "1.3.2",
   "description": "Cursor skills for Harness Engineering based on Learn Harness Engineering course",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "harness-engineering-skills": "scripts/cli.mjs",
-    "harness-skills": "scripts/cli.mjs"
+    "harness-skills": "scripts/cli.mjs",
+    "harness-engineering-skills": "scripts/cli.mjs"
   },
   "files": [
     "scripts",
@@ -17,6 +17,12 @@
     "README.md"
   ],
   "scripts": {
+    "cli": "node scripts/cli.mjs",
+    "dev:install": "node scripts/cli.mjs install",
+    "dev:list": "node scripts/cli.mjs list",
+    "dev:create": "node scripts/cli.mjs create --target .",
+    "dev:validate": "node scripts/cli.mjs validate --target .",
+    "link:local": "npm link",
     "validate": "node scripts/validate-harness.mjs",
     "create-harness": "node scripts/create-harness.mjs"
   },
@@ -29,6 +35,7 @@
   },
   "keywords": [
     "harness-engineering",
+    "harness-skills",
     "cursor",
     "agent-skills",
     "ai-coding-agents"
