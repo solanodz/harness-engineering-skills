@@ -1,0 +1,20 @@
+{
+  "name": "harness-engineering-skills",
+  "version": "1.0.0",
+  "description": "Cursor skills for Harness Engineering based on Learn Harness Engineering course",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node scripts/validate-harness.mjs",
+    "create-harness": "node scripts/create-harness.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solanodz/harness-engineering-skills"
+  },
+  "keywords": [
+    "harness-engineering",
+    "cursor",
+    "agent-skills",
+    "ai-coding-agents"
+  ]
+}
