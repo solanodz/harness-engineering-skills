@@ -38,6 +38,21 @@ export const SKILL_CATALOG = {
     label: 'Observability',
     subsystem: 'Debug',
     hint: 'See what the agent actually did'
+  },
+  'harness-evaluator': {
+    label: 'Evaluator',
+    subsystem: 'Quality',
+    hint: 'Independent review before accepting work'
+  },
+  'harness-diagnose': {
+    label: 'Diagnose',
+    subsystem: 'Debug',
+    hint: 'Find which harness layer is breaking'
+  },
+  'harness-e2e': {
+    label: 'E2E',
+    subsystem: 'Trust',
+    hint: 'Smoke and end-to-end checks unit tests miss'
   }
 };
 
