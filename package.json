@@ -1,6 +1,6 @@
 {
   "name": "harness-skills",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Install harness skills for Cursor, Claude Code, and Codex — reliable agent loops with scope, verify, and resume",
   "license": "MIT",
   "type": "module",
