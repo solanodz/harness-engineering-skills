@@ -59,19 +59,43 @@ Before ending a session:
 4. Commit with a descriptive message once work is in a safe state
 5. Leave the repo clean enough for the next session to run `./init.sh` immediately
 
-## Verification Commands
+## Verification
 
-```bash
-# Full verification (recommended)
-./init.sh
+**Rule:** If `./init.sh` fails, do not start new features. Fix the baseline first.
+
+Agents **cannot** mark a feature `done` until documented commands ran, passed, and evidence is recorded.
+
+### Verification hierarchy
+
+| Level | Command | What it checks |
+|-------|---------|----------------|
+| Lint | `./init.sh` (lint step) | SKILL.md files ≤ 500 lines |
+| Smoke | `node scripts/cli.mjs help` | CLI loads |
+| Smoke | `node scripts/cli.mjs list` | Skill catalog readable |
+| Integration | `node scripts/cli.mjs install --dest /tmp/...` | Skills copy correctly |
+| Integration | `node scripts/cli.mjs create --target /tmp/...` | Harness scaffold works |
+| Validate | `node scripts/validate-harness.mjs --target . --min-score 70` | Five-subsystem score |
+| Package | `npm pack --dry-run` | npm publish contents |
+| Full | `./init.sh` | All of the above |
+
+### Correction loop
+
+```
+Implement → Run ./init.sh → Pass?
+  ├── Yes → Record evidence → Mark done
+  └── No  → Read error → Fix → Re-run (do not declare done)
 ```
 
-Required checks:
+### Minimum evidence (feature_list.json)
 
-- `node scripts/cli.mjs help`
-- `node scripts/cli.mjs list`
-- `node scripts/validate-harness.mjs --target .`
-- `npm pack --dry-run`
+```json
+"evidence": [{
+  "date": "2026-06-16",
+  "commands": ["./init.sh"],
+  "result": "pass",
+  "output_summary": "validate 100/100, npm pack OK"
+}]
+```
 
 ## Skill Authoring Rules
 

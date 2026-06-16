@@ -22,6 +22,8 @@
     "dev:list": "node scripts/cli.mjs list",
     "dev:create": "node scripts/cli.mjs create --target .",
     "dev:validate": "node scripts/cli.mjs validate --target .",
+    "verify": "./init.sh",
+    "test": "./init.sh",
     "link:local": "npm link",
     "validate": "node scripts/validate-harness.mjs",
     "create-harness": "node scripts/create-harness.mjs"

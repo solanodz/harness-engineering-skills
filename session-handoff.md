@@ -2,22 +2,24 @@
 
 ## Current Objective
 
-- Goal: Dogfood harness engineering in the skills repo itself
-- Current status: feat-001 in progress — scaffold artifacts being added
+- Goal: Verification pipeline before feature work (harness-verification)
+- Current status: feat-006 done — `./init.sh` is the single verification gate
 - Branch / commit: `cursor/harness-scaffold-e847`
 
 ## Completed This Session
 
-- [ ] harness-audit baseline (20/100)
-- [ ] harness-scaffold artifacts created
+- [x] harness-verification applied: hierarchy table, correction loop, evidence format
+- [x] init.sh hardened: `set -euo pipefail`, install/create/integration smoke
+- [x] CI simplified to `./init.sh`
+- [x] `npm run verify` / `npm test` → `./init.sh`
 
 ## Verification Evidence
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| CLI help | `node scripts/cli.mjs help` | pending | smoke test |
-| Harness validate | `node scripts/validate-harness.mjs --target .` | pending | target ≥70 |
-| npm pack | `npm pack --dry-run` | pending | package contents |
+| Full pipeline | `./init.sh` | pass | lint, smoke, integration, validate 100/100 |
+| npm alias | `npm run verify` | pass | same as init.sh |
+| Harness score | `validate --min-score 70` | pass | 100/100 |
 
 ## Files Changed
 
@@ -40,4 +42,4 @@
 
 ## Recommended Next Step
 
-- Complete feat-001 verification, then run harness-audit again to confirm score improvement
+- feat-003: Tier 1 launch polish — after merging PR #14

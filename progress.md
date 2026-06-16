@@ -12,7 +12,7 @@
 - [x] harness-audit baseline (20/100)
 - [x] harness-scaffold — AGENTS.md, feature_list, progress, handoff, init.sh
 - [x] harness-audit after scaffold — **100/100**
-- [x] `./init.sh` passes (CLI smoke, SKILL.md lint, validate, npm pack)
+- [x] harness-verification — pipeline, evidence format, CI = `./init.sh`
 
 ### What's In Progress
 
@@ -38,9 +38,10 @@
 
 ## Evidence of Completion
 
-- [x] Tests pass: `./init.sh` — exit 0 (CLI smoke, lint, validate, npm pack)
-- [x] Harness validate: `node scripts/validate-harness.mjs --target .` → 100/100
-- [x] Manual verification: all 5 subsystems 5/5
+- [x] Full pipeline: `./init.sh` — exit 0 (lint, smoke, integration, validate 100/100, npm pack)
+- [x] npm run verify — alias to `./init.sh`
+- [x] CI aligned: single `./init.sh` gate in `.github/workflows/ci.yml`
+- [x] Structured evidence in `feature_list.json` (feat-001, feat-002, feat-006)
 
 ## Notes for Next Session
 
