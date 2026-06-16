@@ -14,7 +14,8 @@
     "templates",
     "references",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "SECURITY.md"
   ],
   "scripts": {
     "cli": "node scripts/cli.mjs",

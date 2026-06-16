@@ -1,5 +1,9 @@
 # Harness Engineering Skills
 
+[![npm version](https://img.shields.io/npm/v/harness-skills.svg)](https://www.npmjs.com/package/harness-skills)
+[![license](https://img.shields.io/npm/l/harness-skills.svg)](https://github.com/solanodz/harness-engineering-skills/blob/master/LICENSE)
+[![CI](https://github.com/solanodz/harness-engineering-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/solanodz/harness-engineering-skills/actions/workflows/ci.yml)
+
 Agent skills for **Cursor**, **Claude Code**, and **Codex** — help coding agents finish work reliably, not just write code faster.
 
 Based on [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) by Walking Labs.

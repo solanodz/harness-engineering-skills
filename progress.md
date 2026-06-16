@@ -3,26 +3,17 @@
 ## Current State
 
 **Last Updated:** 2026-06-16
-**Active Feature:** feat-003 — Tier 1 Launch Polish (next up)
-
-## Status
+**Active Feature:** feat-004 — harness-environment skill (next up)
 
 ### What's Done
 
-- [x] harness-audit baseline (20/100)
-- [x] harness-scaffold — AGENTS.md, feature_list, progress, handoff, init.sh
-- [x] harness-audit after scaffold — **100/100**
-- [x] harness-verification — pipeline, evidence format, CI = `./init.sh`
-
-### What's In Progress
-
-- [ ] None — pick next feature from `feature_list.json`
+- [x] feat-003 Tier 1: npm/license/CI badges, SECURITY.md, PUBLISHING.md GitHub topics guide
 
 ### What's Next
 
-1. feat-003: Tier 1 launch polish (GitHub topics, npm badge, SECURITY.md)
-2. feat-004: harness-environment skill
-3. feat-005: harness-repo-knowledge skill
+1. feat-004: harness-environment skill
+2. feat-005: harness-repo-knowledge skill
+3. Merge PRs #13 (Tier 2 UX) and #14 (dogfood harness)
 
 ## Blockers / Risks
 

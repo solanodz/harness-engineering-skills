@@ -58,9 +58,16 @@
       "name": "Tier 1 Launch Polish",
       "description": "GitHub topics/description, npm badge in README, SECURITY.md",
       "dependencies": ["feat-006"],
-      "status": "not-started",
+      "status": "done",
       "verification": ["./init.sh"],
-      "evidence": []
+      "evidence": [
+        {
+          "date": "2026-06-16",
+          "commands": ["./init.sh"],
+          "result": "pass",
+          "output_summary": "README badges (npm, license, CI), SECURITY.md, maintainer note for GitHub topics in .github/PUBLISHING.md"
+        }
+      ]
     },
     {
       "id": "feat-004",
