@@ -1,6 +1,6 @@
 # Harness Engineering Skills
 
-Cursor skills that help coding agents **finish work reliably** — not just write code faster.
+Agent skills for **Cursor**, **Claude Code**, and **Codex** — help coding agents finish work reliably, not just write code faster.
 
 Based on [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) by Walking Labs.
 
@@ -23,7 +23,9 @@ These skills guide the agent through a proven workflow:
 | **Clear project rules** | short `AGENTS.md` the agent reads first |
 | **Know what to fix next** | audit scores your setup 0–100 |
 
-You install the skills **once in Cursor**. Your project stays separate — skills are not copied into your app repo unless you choose to add harness files there.
+You install the skills **once** in your IDE. Your project stays separate — skills are not copied into your app repo unless you choose to add harness files there.
+
+Works with **Cursor**, **Claude Code**, and **Codex** (same `SKILL.md` format, different install folders).
 
 ## Quick start
 
@@ -33,9 +35,23 @@ You install the skills **once in Cursor**. Your project stays separate — skill
 npx harness-skills install
 ```
 
-Pick global (all projects) or project-only. All skills are selected by default.
+Pick global (all projects) or project-only. By default, skills install for **Cursor, Claude Code, and Codex**.
 
-**2. Open your project in Cursor**
+| Tool | Global path | Project path |
+|------|-------------|--------------|
+| Cursor | `~/.cursor/skills/` | `.cursor/skills/` |
+| Claude Code | `~/.claude/skills/` | `.claude/skills/` |
+| Codex | `~/.codex/skills/` | `.agents/skills/` |
+
+Install for one tool only:
+
+```bash
+npx harness-skills install --ide cursor
+npx harness-skills install --ide claude
+npx harness-skills install --ide codex
+```
+
+**2. Open your project in Cursor, Claude Code, or Codex**
 
 **3. Ask the agent to use a skill**
 
@@ -127,8 +143,11 @@ You don’t need all of them on day one. Install everything once, then invoke on
 
 | Goal | Command |
 |------|---------|
-| Default (interactive) | `npx harness-skills install` |
+| Default (interactive, all IDEs) | `npx harness-skills install` |
 | Skip prompts | `npx harness-skills install --yes` |
+| Cursor only | `npx harness-skills install --ide cursor` |
+| Claude Code only | `npx harness-skills install --ide claude` |
+| Codex only | `npx harness-skills install --ide codex` |
 | This repo only | `npx harness-skills install --project` |
 | Pick specific skills | `npx harness-skills install --skills harness-scaffold,harness-audit` |
 | From GitHub | `npx github:solanodz/harness-engineering-skills install` |
@@ -139,13 +158,13 @@ Legacy package name: `harness-engineering-skills` (still works).
 
 | Command | What it does |
 |---------|--------------|
-| `install` | Copy skills into Cursor |
+| `install` | Copy skills into Cursor, Claude Code, and/or Codex |
 | `create` | Add harness files to a project |
 | `validate` | Score a project harness (0–100) |
 | `report` | HTML assessment report |
 | `list` | Show available skills |
 
-Common flags: `--target .` (project path), `--force` (overwrite), `--project` (install to current repo).
+Common flags: `--target .` (project path), `--force` (overwrite), `--project` (install to current repo), `--ide all|cursor|claude|codex`.
 
 ## For contributors
 

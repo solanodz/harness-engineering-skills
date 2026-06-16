@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository contains Harness Engineering skills for Cursor and compatible agents.
+This repository contains Harness Engineering skills for Cursor, Claude Code, Codex, and compatible agents.
 
 ## Purpose
 

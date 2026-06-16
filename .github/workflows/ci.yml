@@ -28,7 +28,15 @@ jobs:
           node scripts/cli.mjs validate --target /tmp/harness-smoke --min-score 70
 
       - name: Install skills to temp dir
-        run: node scripts/cli.mjs install --yes --dest /tmp/cursor-skills --force
+        run: |
+          node scripts/cli.mjs install --yes --force --ide cursor --dest /tmp/cursor-skills
+          node scripts/cli.mjs install --yes --force --ide claude --dest /tmp/claude-skills
+          node scripts/cli.mjs install --yes --force --ide codex --dest /tmp/codex-skills
+          mkdir -p /tmp/project-ides && cd /tmp/project-ides
+          node "$GITHUB_WORKSPACE/scripts/cli.mjs" install --yes --force --ide all --project
+          test -f .cursor/skills/harness-scaffold/SKILL.md
+          test -f .claude/skills/harness-scaffold/SKILL.md
+          test -f .agents/skills/harness-scaffold/SKILL.md
 
       - name: Verify npm package contents
         run: npm pack --dry-run
