@@ -9,6 +9,8 @@ import { parseArgs } from './lib/harness-utils.mjs';
 import { c, printBanner } from './lib/cli-ui.mjs';
 import { getSkillMeta } from './lib/skill-catalog.mjs';
 import { printInstallSuccess, resolveInstallOptions } from './lib/prompt-install.mjs';
+import { printUninstallSuccess, resolveUninstallOptions } from './lib/prompt-uninstall.mjs';
+import { uninstallSkills } from './lib/uninstall-skills.mjs';
 
 const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PACKAGE_VERSION = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version;
@@ -26,6 +28,7 @@ Usage:
 
 Commands:
   install    Copy skills into your IDE (Cursor, Claude Code, Codex)
+  uninstall  Remove harness-skills from your IDE folders
   create     Add AGENTS.md, init.sh, and tracking files to a project
   validate   Score a project harness 0–100
   report     Write an HTML assessment report
@@ -45,6 +48,13 @@ Install:
   --force            Overwrite existing skill directories
   --yes, -y          Install all skills without prompts
   --no-interactive   Same as --yes (for CI)
+
+Uninstall:
+  harness-skills uninstall [--global|--project] [--ide cursor,claude,codex|all]
+                           [--dest DIR] [--skills name,name] [--yes]
+
+  Removes only skills from this package catalog (harness-*). Other skills in the
+  same folder are left untouched.
 
 IDE install paths (default --ide all):
   Cursor       ~/.cursor/skills/ or .cursor/skills/
@@ -66,6 +76,7 @@ Report:
 Examples:
   npx harness-skills install
   npx harness-skills install --project
+  npx harness-skills uninstall --yes
   npx harness-skills create --target .
   npx harness-skills validate --target .
   npx github:solanodz/harness-engineering-skills install
@@ -102,6 +113,22 @@ async function runInstall(args) {
     cwd: process.cwd()
   });
   printInstallSuccess(result);
+}
+
+async function runUninstall(args) {
+  if (args.global && args.project) {
+    throw new Error('Use either --global or --project, not both.');
+  }
+
+  const uninstallOptions = await resolveUninstallOptions(args, { version: PACKAGE_VERSION });
+  const result = await uninstallSkills({
+    dest: uninstallOptions.dest,
+    project: uninstallOptions.project,
+    ides: uninstallOptions.ides,
+    skills: uninstallOptions.skills,
+    cwd: process.cwd()
+  });
+  printUninstallSuccess(result);
 }
 
 async function runCreate(args) {
@@ -155,6 +182,9 @@ async function main() {
   switch (command) {
     case 'install':
       await runInstall(args);
+      break;
+    case 'uninstall':
+      await runUninstall(args);
       break;
     case 'create':
       await runCreate(args);

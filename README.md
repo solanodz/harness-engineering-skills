@@ -165,6 +165,22 @@ You don’t need all of them on day one. Install everything once, then invoke on
 | Pick specific skills | `npx harness-skills install --skills harness-scaffold,harness-audit` |
 | From GitHub | `npx github:solanodz/harness-engineering-skills install` |
 
+**Remove skills**
+
+```bash
+npx harness-skills uninstall
+```
+
+Removes only skills from this package (`harness-*`). Other skills in the same folder are left untouched.
+
+| Goal | Command |
+|------|---------|
+| Default (interactive) | `npx harness-skills uninstall` |
+| Skip prompts | `npx harness-skills uninstall --yes` |
+| This repo only | `npx harness-skills uninstall --project` |
+| Cursor only | `npx harness-skills uninstall --ide cursor` |
+| Specific skills | `npx harness-skills uninstall --skills harness-scaffold,harness-audit --yes` |
+
 Legacy package name: `harness-engineering-skills` (still works).
 
 ## CLI reference
@@ -172,12 +188,13 @@ Legacy package name: `harness-engineering-skills` (still works).
 | Command | What it does |
 |---------|--------------|
 | `install` | Copy skills into Cursor, Claude Code, and/or Codex |
+| `uninstall` | Remove harness-skills from IDE folders (catalog only) |
 | `create` | Add harness files to a project |
 | `validate` | Score a project harness (0–100) |
 | `report` | HTML assessment report |
 | `list` | Show available skills |
 
-Common flags: `--target .` (project path), `--force` (overwrite), `--project` (install to current repo), `--ide all|cursor|claude|codex`.
+Common flags: `--target .` (project path), `--force` (overwrite on install), `--project` (current repo), `--ide all|cursor|claude|codex`, `--yes` (skip prompts).
 
 ## For contributors
 

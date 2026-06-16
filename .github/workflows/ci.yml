@@ -19,5 +19,15 @@ jobs:
       - name: Full verification (init.sh)
         run: ./init.sh
 
+      - name: Uninstall skills from temp dir
+        run: |
+          node scripts/cli.mjs uninstall --yes --ide cursor --dest /tmp/cursor-skills
+          test ! -d /tmp/cursor-skills/harness-scaffold
+          node scripts/cli.mjs install --yes --force --ide cursor --dest /tmp/cursor-skills
+          node scripts/cli.mjs uninstall --yes --skills harness-scaffold,harness-audit --ide cursor --dest /tmp/cursor-skills
+          test ! -d /tmp/cursor-skills/harness-scaffold
+          test ! -d /tmp/cursor-skills/harness-audit
+          test -d /tmp/cursor-skills/harness-state
+
       - name: Verify npm package contents
         run: npm pack --dry-run
