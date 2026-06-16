@@ -187,6 +187,25 @@ npm run dev:install
 
 Publishing: see [.github/PUBLISHING.md](.github/PUBLISHING.md).
 
+### Troubleshooting
+
+**`Permission denied` when running `npx harness-skills` inside this repo**
+
+If you cloned this repository and run `npx harness-skills install` from the repo root, npm may use the **local** package instead of the published one. Use one of these instead:
+
+```bash
+npm run dev:install          # recommended for local development
+node scripts/cli.mjs install # explicit
+npx harness-skills@latest install  # force published package
+```
+
+**Install from your own project** (not this repo):
+
+```bash
+cd ~/your-app
+npx harness-skills install
+```
+
 ## Learn more
 
 - [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/)
