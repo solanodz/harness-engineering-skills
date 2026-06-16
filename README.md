@@ -160,3 +160,7 @@ node scripts/render-assessment-html.mjs --target /path/to/project
 ## License
 
 MIT — adapted from [walkinglabs/learn-harness-engineering](https://github.com/walkinglabs/learn-harness-engineering).
+
+## Publishing
+
+Releases are automated via GitHub Actions when `version` in `package.json` changes on `master`. Each release publishes to npm, creates a git tag (`v1.1.0`), and opens a GitHub Release. See [.github/PUBLISHING.md](.github/PUBLISHING.md) for `NPM_TOKEN` setup.
