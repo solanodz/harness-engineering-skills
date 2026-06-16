@@ -1,14 +1,20 @@
 ---
 name: harness-audit
 description: >-
-  Audits and scores an existing harness across five subsystems (instructions,
-  state, verification, scope, lifecycle). Use when evaluating an agent-ready
-  repository, before improving a harness, or for agent failure diagnostics.
+  Scores your project setup 0–100 and shows what to fix first. Use when the
+  agent keeps failing, before improving a harness, or to see which subsystem
+  is the bottleneck (instructions, state, verification, scope, lifecycle).
 ---
 
 # Harness Audit
 
-Evaluates how prepared a repository is for reliable agentic work. Based on Lesson 02 (five subsystems) and the course audit exercise.
+## What this does for you
+
+- **See what's weak** — score 0–100 across five areas
+- **Know where to start** — highlights the likely bottleneck
+- **Stop guessing** — concrete checklist instead of vague "make it better"
+
+Based on Lesson 02 (five subsystems) and the course audit exercise.
 
 ## Run automated audit
 

@@ -1,13 +1,18 @@
 ---
 name: harness-scaffold
 description: >-
-  Creates a minimal production harness for coding agents: AGENTS.md,
-  feature_list.json, progress.md, init.sh, and session-handoff.md. Use when
-  starting a new project, adopting harness engineering, or when the user asks
-  to set up a reliable agentic environment.
+  Sets up a new project so the agent can start, verify, and resume anytime —
+  AGENTS.md, feature list, progress log, init.sh, handoff. Use when adopting
+  harness engineering or the user asks to set up an agent-ready project.
 ---
 
 # Harness Scaffold
+
+## What this does for you
+
+- **Start in minutes** — minimum files an agent needs on day one
+- **Resume across sessions** — progress and feature list on disk, not in chat
+- **Built-in verification** — `init.sh` and done criteria from the start
 
 Creates the minimum harness package so an agent can start, maintain scope, verify work, and resume across sessions.
 
