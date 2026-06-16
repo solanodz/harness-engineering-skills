@@ -74,7 +74,7 @@ cd /path/to/your-project
 npx harness-skills create --target .
 ```
 
-Then in Cursor:
+Then in your IDE:
 
 ```
 Use harness-scaffold — replace the example features with real ones
@@ -88,11 +88,11 @@ npx harness-skills validate --target .
 
 ## How it works
 
-Skills live in Cursor. Harness files (optional) live in your project.
+Skills live in **your IDE** (Cursor, Claude Code, or Codex). Harness files (optional) live **in your project repo**.
 
 ```mermaid
 flowchart LR
-    A["npx harness-skills install"] --> B[Skills in Cursor]
+    A["npx harness-skills install"] --> B[Skills in your IDE]
     B --> C[Open your project]
     C --> D["Ask: Use harness-…"]
     D --> E[Agent follows the skill]
@@ -104,7 +104,7 @@ flowchart LR
 
 Start with **scaffold** on a new project or **audit** on an existing one. Use the table below when something specific goes wrong.
 
-| If this happens… | Use this skill | Say this in Cursor |
+| If this happens… | Use this skill | Say this to your agent |
 |------------------|----------------|--------------------|
 | Starting a new project | `harness-scaffold` | Use harness-scaffold to set up this project |
 | Not sure the setup is good | `harness-audit` | Use harness-audit and show me the score |
