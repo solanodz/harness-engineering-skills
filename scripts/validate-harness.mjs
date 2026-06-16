@@ -1,13 +1,6 @@
 #!/usr/bin/env node
-import path from 'node:path';
-import {
-  formatScoreReport,
-  htmlReport,
-  loadHarnessFiles,
-  parseArgs,
-  scoreHarness,
-  writeText
-} from './lib/harness-utils.mjs';
+import { printValidateHarnessResult, runValidateHarness } from './lib/run-validate-harness.mjs';
+import { parseArgs } from './lib/harness-utils.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -21,23 +14,10 @@ Exit code is 0 when the harness scores at least --min-score (default 70).`);
   process.exit(0);
 }
 
-const target = path.resolve(args.target || args._[0] || process.cwd());
-const minScore = Number(args.minScore || 70);
-const files = await loadHarnessFiles(target);
-const result = scoreHarness(files);
+const result = await runValidateHarness({
+  target: args.target || args._[0],
+  minScore: args.minScore,
+  html: args.html
+});
 
-if (args.html) {
-  const htmlPath = path.resolve(args.html);
-  await writeText(htmlPath, htmlReport(result, `Harness Assessment: ${path.basename(target)}`));
-  console.log(`HTML report written to ${htmlPath}`);
-}
-
-if (args.json) {
-  console.log(JSON.stringify(result, null, 2));
-} else {
-  console.log(formatScoreReport(result, target));
-}
-
-if (result.overall < minScore) {
-  process.exitCode = 1;
-}
+printValidateHarnessResult(result, { json: Boolean(args.json) });

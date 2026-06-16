@@ -1,0 +1,83 @@
+name: Publish npm
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Read package version
+        id: package
+        run: echo "version=$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check if version is already published
+        id: check
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          LOCAL_VERSION="${{ steps.package.outputs.version }}"
+          TAG="v${LOCAL_VERSION}"
+          PUBLISHED_VERSION="$(npm view harness-engineering-skills version 2>/dev/null || true)"
+          echo "local=$LOCAL_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "published=$PUBLISHED_VERSION" >> "$GITHUB_OUTPUT"
+          if [ "$LOCAL_VERSION" = "$PUBLISHED_VERSION" ]; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Version $LOCAL_VERSION is already on npm. Skipping publish."
+          else
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "Will publish version $LOCAL_VERSION (npm has: ${PUBLISHED_VERSION:-none})."
+          fi
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
+            echo "Git tag $TAG already exists."
+          else
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Smoke test before publish
+        if: steps.check.outputs.should_publish == 'true'
+        run: |
+          node scripts/cli.mjs create --target /tmp/harness-publish
+          node scripts/cli.mjs validate --target /tmp/harness-publish --min-score 70
+
+      - name: Publish to npm
+        if: steps.check.outputs.should_publish == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+
+      - name: Create GitHub release
+        if: steps.check.outputs.should_publish == 'true' && steps.check.outputs.tag_exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.check.outputs.tag }}
+          name: ${{ steps.check.outputs.tag }}
+          generate_release_notes: true
+          body: |
+            ## Install
+
+            ```bash
+            npx harness-engineering-skills@${{ steps.check.outputs.local }} install
+            npx harness-engineering-skills@${{ steps.check.outputs.local }} create --target .
+            npx harness-engineering-skills@${{ steps.check.outputs.local }} validate --target .
+            ```
+
+            ## npm
+
+            https://www.npmjs.com/package/harness-engineering-skills/v/${{ steps.check.outputs.local }}

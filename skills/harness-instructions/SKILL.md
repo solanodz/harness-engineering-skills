@@ -1,88 +1,86 @@
 ---
 name: harness-instructions
 description: >-
-  Escribe o mejora AGENTS.md/CLAUDE.md con divulgación progresiva: mapa corto
-  en la raíz, detalle en docs/. Usar al estructurar instrucciones para agentes,
-  cuando un archivo de reglas es demasiado largo, o al hacer el repo legible
-  para IA (Proyecto 02).
+  Writes or improves AGENTS.md/CLAUDE.md with progressive disclosure: short map
+  at the root, detail in docs/. Use when structuring agent instructions, when
+  a rules file is too long, or when making the repo legible to AI (Project 02).
 ---
 
 # Harness Instructions
 
-El repositorio es la única fuente de verdad (Lección 03). Las instrucciones deben ser un **mapa**, no un manual (Lección 04).
+The repository is the single source of truth (Lesson 03). Instructions should be a **map**, not a manual (Lesson 04).
 
-## Principios
+## Principles
 
-1. **~100 líneas máximo** en `AGENTS.md` / `CLAUDE.md` raíz
-2. **Divulgación progresiva**: enlazar a `docs/` para detalle
-3. **Restringir, no microgestionar**: invariantes ejecutables, no pasos de implementación
-4. **Comandos copiables**: verificación como bloques de código, no prosa
+1. **~100 lines max** in root `AGENTS.md` / `CLAUDE.md`
+2. **Progressive disclosure**: link to `docs/` for detail
+3. **Constrain, don't micromanage**: executable invariants, not implementation steps
+4. **Copy-pasteable commands**: verification as code blocks, not prose
 
-## Estructura recomendada
+## Recommended structure
 
 ```markdown
 # AGENTS.md
 
-## Propósito (1 línea)
-[Qué hace el proyecto]
+## Purpose (1 line)
+[What the project does]
 
 ## Stack
-[Lenguaje, framework, versiones clave]
+[Language, framework, key versions]
 
-## Flujo de inicio
+## Startup flow
 1. pwd
-2. Leer progress.md
-3. Leer feature_list.json → elegir feature inacabada de mayor prioridad
+2. Read progress.md
+3. Read feature_list.json → pick highest-priority unfinished feature
 4. git log --oneline -5
 5. ./init.sh
 
-## Comandos de verificación
+## Verification commands
 - Tests: `...`
 - Lint: `...`
 - Type-check: `...`
 - Full: `./init.sh`
 
-## Reglas invariantes
-- Una feature a la vez
-- No marcar done sin evidencia
-- No cambiar reglas de verificación durante implementación
+## Invariant rules
+- One feature at a time
+- Do not mark done without evidence
+- Do not change verification rules during implementation
 
-## Definición de done
-[Checklist breve]
+## Definition of done
+[Brief checklist]
 
-## Documentación detallada
-- Arquitectura: docs/architecture.md
-- Convenciones: docs/conventions.md
+## Detailed documentation
+- Architecture: docs/architecture.md
+- Conventions: docs/conventions.md
 - API: docs/api.md
 
-## Fin de sesión
-[5 pasos de cierre]
+## End of session
+[5 closing steps]
 ```
 
-## Anti-patrones
+## Anti-patterns
 
-| Mal | Bien |
+| Bad | Good |
 |-----|------|
-| 500 líneas en AGENTS.md | 80 líneas + docs/ |
-| "Sigue buenas prácticas" | "Todas las APIs usan OAuth 2.0" |
-| Historia del proyecto | Comandos y reglas actuales |
-| Duplicar README completo | Enlazar al README |
+| 500 lines in AGENTS.md | 80 lines + docs/ |
+| "Follow best practices" | "All APIs use OAuth 2.0" |
+| Project history | Current commands and rules |
+| Duplicate full README | Link to README |
 
 ## Workflow
 
-1. Lee el proyecto: stack, scripts en package.json, estructura de dirs
-2. Identifica qué debe saber el agente **antes** de escribir código
-3. Escribe AGENTS.md corto con routing a docs/
-4. Crea docs/ solo para lo que no cabe en el mapa
-5. Valida: ¿un agente nuevo puede iniciar solo con estos archivos?
+1. Read the project: stack, package.json scripts, directory structure
+2. Identify what the agent must know **before** writing code
+3. Write a short AGENTS.md with routing to docs/
+4. Create docs/ only for what does not fit in the map
+5. Validate: can a new agent start using only these files?
 
-## Plantillas
+## Templates
 
-- Español: [templates/es/AGENTS.md](../../templates/es/AGENTS.md)
-- Inglés: [templates/agents.md](../../templates/agents.md)
+- [templates/agents.md](../../templates/agents.md)
 
-## Referencia del curso
+## Course reference
 
-- Lección 03: El repositorio como sistema de registro
-- Lección 04: Por qué falla un archivo gigante de instrucciones
-- Proyecto 02: Workspace legible para el agente
+- Lesson 03: The repository as a system of record
+- Lesson 04: Why a giant instruction file fails
+- Project 02: Agent-legible workspace
