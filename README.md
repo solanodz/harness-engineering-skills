@@ -26,6 +26,12 @@ Install from GitHub before the package is on npm:
 npx github:solanodz/harness-engineering-skills install
 ```
 
+After the first npm release:
+
+```bash
+npx harness-engineering-skills install
+```
+
 ### Option 2 — Manual copy
 
 ```bash

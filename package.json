@@ -24,6 +24,9 @@
     "type": "git",
     "url": "https://github.com/solanodz/harness-engineering-skills"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "harness-engineering",
     "cursor",

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: CLI help
+        run: node scripts/cli.mjs help
+
+      - name: List skills
+        run: node scripts/cli.mjs list
+
+      - name: Create and validate harness
+        run: |
+          node scripts/cli.mjs create --target /tmp/harness-smoke
+          node scripts/cli.mjs validate --target /tmp/harness-smoke --min-score 70
+
+      - name: Install skills to temp dir
+        run: node scripts/cli.mjs install --dest /tmp/cursor-skills --force
+
+      - name: Verify npm package contents
+        run: npm pack --dry-run
