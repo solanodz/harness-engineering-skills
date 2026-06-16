@@ -14,10 +14,10 @@ const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 
 const PACKAGE_VERSION = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version;
 const PACKAGE_NAME = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).name;
 
-const HELP = `${PACKAGE_NAME} — Skills that help Cursor agents finish work reliably
+const HELP = `${PACKAGE_NAME} — Skills that help coding agents finish work reliably
 
 Quick start:
-  npx harness-skills install              Install skills into Cursor
+  npx harness-skills install              Install skills (Cursor, Claude Code, Codex)
   npx harness-skills create --target .    Add harness files to a project (optional)
   npx harness-skills validate --target .  Score your project setup
 
@@ -25,7 +25,7 @@ Usage:
   harness-skills <command> [options]
 
 Commands:
-  install    Copy skills into Cursor (use in chat: "Use harness-scaffold …")
+  install    Copy skills into your IDE (Cursor, Claude Code, Codex)
   create     Add AGENTS.md, init.sh, and tracking files to a project
   validate   Score a project harness 0–100
   report     Write an HTML assessment report
@@ -33,17 +33,23 @@ Commands:
   help       Show this help
 
 Install:
-  harness-skills install [--global|--project] [--dest DIR]
-                         [--skills name,name] [--force]
+  harness-skills install [--global|--project] [--ide cursor,claude,codex|all]
+                         [--dest DIR] [--skills name,name] [--force]
                          [--yes] [--no-interactive]
 
-  --global           Install to ~/.cursor/skills (default)
-  --project          Install to ./.cursor/skills in the current directory
-  --dest DIR         Custom destination directory
+  --global           Install to each tool's global skills folder (default scope)
+  --project          Install to this repo (.cursor, .claude, .agents/skills)
+  --ide              Target IDE(s): cursor, claude, codex, or all (default: all)
+  --dest DIR         Custom destination (single folder; skips --ide paths)
   --skills           Comma-separated skill names (skips interactive picker)
   --force            Overwrite existing skill directories
   --yes, -y          Install all skills without prompts
   --no-interactive   Same as --yes (for CI)
+
+IDE install paths (default --ide all):
+  Cursor       ~/.cursor/skills/ or .cursor/skills/
+  Claude Code  ~/.claude/skills/ or .claude/skills/
+  Codex        ~/.codex/skills/ or .agents/skills/
 
 Create:
   harness-skills create [--target DIR] [--agent-file AGENTS.md|CLAUDE.md]
@@ -72,7 +78,7 @@ async function runList() {
   printBanner(PACKAGE_VERSION);
   const skills = await listAvailableSkills();
   console.log(c.bold('  Available skills'));
-  console.log(c.dim('  Install once, then say "Use harness-…" in Cursor\n'));
+  console.log(c.dim('  Install once, then say "Use harness-…" in your agent\n'));
   for (const skill of skills) {
     const meta = getSkillMeta(skill);
     console.log(`  ${c.cyan('◆')} ${c.bold(meta.label)} ${c.dim(`(${skill})`)}`);
@@ -90,6 +96,7 @@ async function runInstall(args) {
   const result = await installSkills({
     dest: installOptions.dest,
     project: installOptions.project,
+    ides: installOptions.ides,
     skills: installOptions.skills,
     force: installOptions.force,
     cwd: process.cwd()
