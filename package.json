@@ -1,7 +1,7 @@
 {
   "name": "harness-skills",
-  "version": "1.5.1",
-  "description": "Agent skills for Cursor, Claude Code, and Codex based on Learn Harness Engineering course",
+  "version": "1.6.0",
+  "description": "Install harness skills for Cursor, Claude Code, and Codex — reliable agent loops with scope, verify, and resume",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -19,6 +19,7 @@
   "scripts": {
     "cli": "node scripts/cli.mjs",
     "dev:install": "node scripts/cli.mjs install",
+    "dev:uninstall": "node scripts/cli.mjs uninstall",
     "dev:list": "node scripts/cli.mjs list",
     "dev:create": "node scripts/cli.mjs create --target .",
     "dev:validate": "node scripts/cli.mjs validate --target .",
