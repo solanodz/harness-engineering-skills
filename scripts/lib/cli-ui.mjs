@@ -53,8 +53,34 @@ function boxRow(content = '', width = INNER_WIDTH) {
   return `${c.cyan('  ║ ')}${padVisible(content, width)}${c.cyan(' ║')}`;
 }
 
-function pipelineStep(label, colorFn) {
-  return `${c.dim('[')} ${colorFn(label)} ${c.dim(']')}`;
+const PIPELINE_STEPS = [
+  { label: 'inst', color: c.green },
+  { label: 'state', color: c.yellow },
+  { label: 'scope', color: c.magenta },
+  { label: 'verify', color: c.blue },
+  { label: 'ship', color: c.green }
+];
+
+const PIPELINE_BOX_WIDTH = 7;
+const PIPELINE_GAP = ' ──► ';
+
+function centeredLabel(label, width) {
+  const padding = Math.max(0, width - label.length);
+  const left = Math.floor(padding / 2);
+  return `${' '.repeat(left)}${label}${' '.repeat(padding - left)}`;
+}
+
+function printPipeline() {
+  const tops = PIPELINE_STEPS.map(() => c.dim(`┌${'─'.repeat(PIPELINE_BOX_WIDTH + 2)}┐`));
+  const mids = PIPELINE_STEPS.map(({ label, color }) =>
+    `${c.dim('│ ')}${color(centeredLabel(label, PIPELINE_BOX_WIDTH))}${c.dim(' │')}`
+  );
+  const bots = PIPELINE_STEPS.map(() => c.dim(`└${'─'.repeat(PIPELINE_BOX_WIDTH + 2)}┘`));
+  const spacer = ' '.repeat(PIPELINE_GAP.length);
+
+  console.log(`  ${tops.join(spacer)}`);
+  console.log(`  ${mids.join(c.dim(PIPELINE_GAP))}`);
+  console.log(`  ${bots.join(spacer)}`);
 }
 
 export function printBanner(version) {
@@ -64,18 +90,7 @@ export function printBanner(version) {
   console.log(boxRow(c.dim('Reliable agent loops · scope · verify · resume')));
   console.log(borderBottom());
   console.log('');
-  console.log([
-    ' ',
-    pipelineStep('inst', c.green),
-    c.dim('->'),
-    pipelineStep('state', c.yellow),
-    c.dim('->'),
-    pipelineStep('scope', c.magenta),
-    c.dim('->'),
-    pipelineStep('verify', c.blue),
-    c.dim('->'),
-    pipelineStep('ship', c.green)
-  ].join(' '));
+  printPipeline();
   console.log('');
 
   if (version) {
