@@ -1,12 +1,18 @@
 ---
 name: harness-observability
 description: >-
-  Makes agent runtime observable: logs, metrics, traces, service state. Use when
-  debugging agent behavior, designing a capstone harness, or when you cannot see
-  what the agent did (Lesson 11, Project 06).
+  See what the agent actually did — captured logs, health checks, and debug
+  commands. Use when the agent says it worked but you can't tell why, or when
+  failures are hard to diagnose.
 ---
 
 # Harness Observability
+
+## What this does for you
+
+- **Evidence you can read** — test output and logs saved, not lost in the terminal
+- **Health before smoke tests** — know the app is up before declaring success
+- **Faster debugging** — documented commands instead of guessing what ran
 
 If you cannot see what the agent did, you cannot fix what it broke (Lesson 11). Observability belongs **inside** the harness, not as an afterthought.
 

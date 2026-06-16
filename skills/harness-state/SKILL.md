@@ -1,12 +1,18 @@
 ---
 name: harness-state
 description: >-
-  Designs persistent state files (feature_list.json, progress.md) for continuity
-  across agent sessions. Use for long tasks, when context is lost between sessions,
-  or when implementing multi-session handoff (Project 03).
+  Pick up where the last session left off — feature list, progress log, and
+  evidence on disk. Use when context is lost between sessions or long tasks
+  need continuity across days.
 ---
 
 # Harness State
+
+## What this does for you
+
+- **Memory that survives chat** — progress and status in files, not context window
+- **Clear next step** — highest-priority unfinished feature is obvious
+- **Proof of done** — evidence recorded before marking a feature passing
 
 Long tasks lose continuity if state lives only in chat (Lesson 05). Persist progress on disk so the next session resumes exactly where the last one stopped.
 

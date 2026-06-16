@@ -1,12 +1,18 @@
 ---
 name: harness-scope
 description: >-
-  Controls agent scope with feature_list.json: one feature at a time, observable
-  criteria, definition of done. Use when the agent over-scopes, leaves work
-  half-finished, or rewrites the task list (Lessons 07–08, Project 04).
+  One feature at a time with clear done criteria — less half-finished work.
+  Use when the agent does too much at once, rewrites the task list, or leaves
+  features stuck in progress.
 ---
 
 # Harness Scope
+
+## What this does for you
+
+- **One thing at a time** — only one feature `in_progress`
+- **Done means observable** — verification steps a human can follow
+- **Stable task list** — the agent follows priorities, not rewrites the plan
 
 Agents over-scope and under-finish (Lesson 07). Feature lists are harness primitives (Lesson 08): machine-readable boundaries the agent cannot ignore.
 

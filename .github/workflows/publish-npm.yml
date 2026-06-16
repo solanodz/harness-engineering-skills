@@ -66,6 +66,18 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public
 
+      - name: Deprecate legacy package name
+        if: steps.check.outputs.should_publish == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if npm view harness-engineering-skills version >/dev/null 2>&1; then
+            npm deprecate harness-engineering-skills "Renamed to harness-skills. Use: npx harness-skills install" || true
+            echo "Deprecated harness-engineering-skills → harness-skills"
+          else
+            echo "Legacy package harness-engineering-skills not found; skipping deprecate."
+          fi
+
       - name: Create GitHub release
         if: steps.check.outputs.should_publish == 'true' && steps.check.outputs.tag_exists == 'false'
         uses: softprops/action-gh-release@v2

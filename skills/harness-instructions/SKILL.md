@@ -1,12 +1,18 @@
 ---
 name: harness-instructions
 description: >-
-  Writes or improves AGENTS.md/CLAUDE.md with progressive disclosure: short map
-  at the root, detail in docs/. Use when structuring agent instructions, when
-  a rules file is too long, or when making the repo legible to AI (Project 02).
+  Writes a short AGENTS.md the agent actually reads — rules, startup flow, and
+  verification commands. Use when instructions are too long, missing, or the
+  agent keeps asking the same project questions.
 ---
 
 # Harness Instructions
+
+## What this does for you
+
+- **Stop re-explaining the project** — the agent reads AGENTS.md first
+- **Short rules that stick** — ~100 lines at the root, details in `docs/`
+- **Copy-paste verification** — commands the agent can run, not vague prose
 
 The repository is the single source of truth (Lesson 03). Instructions should be a **map**, not a manual (Lesson 04).
 

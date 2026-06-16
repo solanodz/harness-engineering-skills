@@ -1,12 +1,18 @@
 ---
 name: harness-lifecycle
 description: >-
-  Manages agent session lifecycle: init.sh at start, handoff at close, clean-state
-  checklist. Use when starting/closing agentic sessions, designing init.sh, or when
-  the next session cannot resume cleanly (Lessons 06, 12).
+  Clean start and handoff every session — init.sh, progress updates, and a
+  restart path. Use when sessions feel chaotic, the next agent can't pick up,
+  or init.sh / handoff files need design.
 ---
 
 # Harness Lifecycle
+
+## What this does for you
+
+- **Every session starts the same way** — read state, run `init.sh`, pick one feature
+- **Every session ends cleanly** — progress updated, safe to commit, easy to resume
+- **No "where were we?"** — handoff captures blockers, files, and next step
 
 Initialization needs its own phase (Lesson 06). Every session must leave clean state (Lesson 12).
 

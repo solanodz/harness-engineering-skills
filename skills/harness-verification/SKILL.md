@@ -1,12 +1,18 @@
 ---
 name: harness-verification
 description: >-
-  Sets up mandatory verification before declaring work complete: tests, lint,
-  type-check, smoke/e2e. Use when the agent declares premature victory, when
-  designing init.sh, or when implementing self-reflection (Lessons 09–10, Project 05).
+  No more "done" without running tests — mandatory checks before marking
+  complete. Use when the agent declares victory too early or init.sh /
+  verification commands need setup.
 ---
 
 # Harness Verification
+
+## What this does for you
+
+- **Done means verified** — tests, lint, and smoke run before marking passing
+- **Evidence on record** — commands and results saved in feature list or progress
+- **Fix the baseline first** — if `init.sh` fails, no new feature work
 
 Confidence ≠ correctness (Lesson 09). Only a full pipeline run counts as real evidence (Lesson 10).
 
