@@ -41,6 +41,24 @@ No extra secret is needed for GitHub Releases — the workflow uses the built-in
 
 Actions → **Publish npm** → **Run workflow**
 
+## GitHub repo settings (manual)
+
+Cloud agents may not have permission to edit repository metadata. Run locally as maintainer:
+
+```bash
+gh repo edit solanodz/harness-engineering-skills \
+  --description "Agent skills for Cursor, Claude Code, and Codex — reliable agent loops with scope, verify, and resume" \
+  --add-topic harness-engineering \
+  --add-topic agent-skills \
+  --add-topic cursor \
+  --add-topic claude-code \
+  --add-topic codex \
+  --add-topic ai-coding-agents \
+  --add-topic npm-package
+```
+
+Or set the same in **GitHub → Settings → General** (description) and **Topics**.
+
 ## Verify after publish
 
 ```bash

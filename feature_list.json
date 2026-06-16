@@ -1,0 +1,91 @@
+{
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "features": [
+    {
+      "id": "feat-001",
+      "name": "Dogfood Harness Scaffold",
+      "description": "Add AGENTS.md harness sections, feature_list.json, progress.md, init.sh, and session-handoff.md to this skills repo",
+      "dependencies": [],
+      "status": "done",
+      "verification": ["./init.sh", "node scripts/validate-harness.mjs --target ."],
+      "evidence": [
+        {
+          "date": "2026-06-16",
+          "commands": ["./init.sh", "node scripts/validate-harness.mjs --target ."],
+          "result": "pass",
+          "output_summary": "validate 100/100, scaffold artifacts in place"
+        }
+      ]
+    },
+    {
+      "id": "feat-002",
+      "name": "Harness Audit Score ≥70",
+      "description": "Run validate-harness and reach at least 70/100 on this repository",
+      "dependencies": ["feat-001"],
+      "status": "done",
+      "verification": ["node scripts/validate-harness.mjs --target . --min-score 70"],
+      "evidence": [
+        {
+          "date": "2026-06-16",
+          "commands": ["node scripts/validate-harness.mjs --target . --min-score 70"],
+          "result": "pass",
+          "output_summary": "100/100, all subsystems 5/5"
+        }
+      ]
+    },
+    {
+      "id": "feat-006",
+      "name": "Verification Pipeline",
+      "description": "Mandatory checks, evidence format, init.sh contract (set -euo pipefail), CI aligned with ./init.sh per harness-verification skill",
+      "dependencies": ["feat-002"],
+      "status": "done",
+      "verification": ["./init.sh", "npm run verify"],
+      "evidence": [
+        {
+          "date": "2026-06-16",
+          "commands": ["./init.sh", "npm run verify"],
+          "result": "pass",
+          "output_summary": "lint OK, CLI smoke OK, install/create/integration OK, validate 100/100, npm pack OK"
+        }
+      ]
+    },
+    {
+      "id": "feat-003",
+      "name": "Tier 1 Launch Polish",
+      "description": "GitHub topics/description, npm badge in README, SECURITY.md",
+      "dependencies": ["feat-006"],
+      "status": "done",
+      "verification": ["./init.sh"],
+      "evidence": [
+        {
+          "date": "2026-06-16",
+          "commands": ["./init.sh"],
+          "result": "pass",
+          "output_summary": "README badges (npm, license, CI), SECURITY.md, maintainer note for GitHub topics in .github/PUBLISHING.md"
+        }
+      ]
+    },
+    {
+      "id": "feat-004",
+      "name": "harness-environment Skill",
+      "description": "New skill for reproducible dev environment setup (env vars, dependencies, bootstrap)",
+      "dependencies": ["feat-006"],
+      "status": "not-started",
+      "verification": ["./init.sh"],
+      "evidence": []
+    },
+    {
+      "id": "feat-005",
+      "name": "harness-repo-knowledge Skill",
+      "description": "New skill for repo map and navigation so agents find code faster",
+      "dependencies": ["feat-004"],
+      "status": "not-started",
+      "verification": ["./init.sh"],
+      "evidence": []
+    }
+  ]
+}

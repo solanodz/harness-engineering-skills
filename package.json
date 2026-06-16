@@ -1,6 +1,6 @@
 {
   "name": "harness-skills",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Install harness skills for Cursor, Claude Code, and Codex — reliable agent loops with scope, verify, and resume",
   "license": "MIT",
   "type": "module",
@@ -14,7 +14,8 @@
     "templates",
     "references",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "SECURITY.md"
   ],
   "scripts": {
     "cli": "node scripts/cli.mjs",
@@ -23,6 +24,8 @@
     "dev:list": "node scripts/cli.mjs list",
     "dev:create": "node scripts/cli.mjs create --target .",
     "dev:validate": "node scripts/cli.mjs validate --target .",
+    "verify": "./init.sh",
+    "test": "./init.sh",
     "link:local": "npm link",
     "validate": "node scripts/validate-harness.mjs",
     "create-harness": "node scripts/create-harness.mjs"
