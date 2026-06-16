@@ -124,5 +124,7 @@ Document results in progress.md.
 ## Related skills
 
 - `harness-verification` — pass/fail evidence
+- `harness-evaluator` — sprint contracts and rubrics (process observability)
 - `harness-lifecycle` — session logs in progress/handoff
 - `harness-audit` — detect observability gaps
+- `harness-e2e` — runtime signals from smoke/E2E runs

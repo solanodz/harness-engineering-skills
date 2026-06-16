@@ -100,6 +100,12 @@ For critical tasks, separate implementer from verifier:
 - Changing verification thresholds to force a pass
 - Unit tests only when the feature is user-visible (missing smoke/e2e)
 
+## Related skills
+
+- `harness-e2e` — mandatory E2E for user-visible features
+- `harness-evaluator` — independent review before marking passing
+- `harness-diagnose` — when verification keeps failing
+
 ## Templates
 
 - [templates/init.sh](../../templates/init.sh)

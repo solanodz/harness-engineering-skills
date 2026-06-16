@@ -104,6 +104,8 @@ Based on the weakest subsystem, invoke the corresponding skill:
 
 - Instructions → `harness-instructions`
 - State → `harness-state`
-- Verification → `harness-verification`
+- Verification → `harness-verification` or `harness-e2e`
 - Scope → `harness-scope`
 - Lifecycle → `harness-lifecycle`
+
+For a **specific repeated failure**, use `harness-diagnose` before re-auditing. For **done-but-wrong** outcomes, use `harness-evaluator`.

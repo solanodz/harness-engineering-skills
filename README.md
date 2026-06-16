@@ -109,6 +109,9 @@ Start with **scaffold** on a new project or **audit** on an existing one. Use th
 | Messy start or end of session | `harness-lifecycle` | Use harness-lifecycle for init and handoff |
 | Agent does too much at once | `harness-scope` | Use harness-scope to fix the feature list |
 | Agent says done without proof | `harness-verification` | Use harness-verification before marking done |
+| Done claimed but quality is poor | `harness-evaluator` | Use harness-evaluator to review with a rubric |
+| Agent keeps failing, not sure why | `harness-diagnose` | Use harness-diagnose and fix the harness layer first |
+| Unit tests pass, feature broken in app | `harness-e2e` | Use harness-e2e to add smoke/end-to-end checks |
 | Hard to see what the agent did | `harness-observability` | Use harness-observability to improve debugging |
 
 ### Suggested order (first time)
@@ -121,7 +124,10 @@ flowchart LR
     D --> E[harness-lifecycle]
     E --> F[harness-scope]
     F --> G[harness-verification]
-    G --> H[harness-observability]
+    G --> H[harness-e2e]
+    H --> I[harness-evaluator]
+    I --> J[harness-observability]
+    J --> K[harness-diagnose]
 ```
 
 You don’t need all of them on day one. Install everything once, then invoke only what you need.
@@ -135,6 +141,9 @@ You don’t need all of them on day one. Install everything once, then invoke on
 | [harness-instructions](skills/harness-instructions/) | Write a clear, short `AGENTS.md` |
 | [harness-state](skills/harness-state/) | Persist progress between sessions |
 | [harness-verification](skills/harness-verification/) | Require real tests before “done” |
+| [harness-e2e](skills/harness-e2e/) | End-to-end and smoke tests; executable architecture rules |
+| [harness-evaluator](skills/harness-evaluator/) | Independent review, sprint contracts, rubrics |
+| [harness-diagnose](skills/harness-diagnose/) | Attribute failures to a harness layer; fix harness first |
 | [harness-scope](skills/harness-scope/) | Keep the agent on one feature at a time |
 | [harness-lifecycle](skills/harness-lifecycle/) | Clean session start, handoff, and close |
 | [harness-observability](skills/harness-observability/) | Make agent runtime visible for debugging |

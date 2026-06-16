@@ -1,6 +1,6 @@
 {
   "name": "harness-skills",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Agent skills for Cursor, Claude Code, and Codex based on Learn Harness Engineering course",
   "license": "MIT",
   "type": "module",
