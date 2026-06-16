@@ -4,6 +4,94 @@ Skills for [Cursor](https://cursor.com) and other coding agents, based on the [L
 
 A **harness** does not make the model smarter: it establishes a closed-loop workflow with instructions, state, verification, scope, and session lifecycle. These skills implement those five subsystems as invocable workflows.
 
+## Overview
+
+### Install and use skills
+
+Skills live in **Cursor**, not inside your app repo. Install once, then invoke them by name in chat.
+
+```mermaid
+flowchart TD
+    A["npx harness-skills install"] --> B{Install scope}
+    B -->|Global default| C["~/.cursor/skills/"]
+    B -->|--project| D["your-repo/.cursor/skills/"]
+    C --> E[Open your project in Cursor]
+    D --> E
+    E --> F{Need harness files<br/>in the project?}
+    F -->|Optional| G["npx harness-skills create --target ."]
+    F -->|No| H[Invoke a skill in chat]
+    G --> H
+    H --> I["Example: Use harness-scaffold"]
+    I --> J{Happy with results?}
+    J -->|Audit| K["npx harness-skills validate --target ."]
+    K --> L{Score below 70?}
+    L -->|Yes| M[Use the skill for the weakest subsystem]
+    M --> H
+    L -->|No| N[Keep building]
+    J -->|Yes| N
+```
+
+### Which skill when?
+
+Each skill maps to one or more harness subsystems. Start with **scaffold + audit**, then add others as needed.
+
+```mermaid
+flowchart LR
+    subgraph phase1 [Phase 1 — Start here]
+        scaffold[harness-scaffold<br/>Create minimal harness]
+        audit[harness-audit<br/>Score existing setup]
+    end
+
+    subgraph phase2 [Phase 2 — Instructions]
+        instructions[harness-instructions<br/>AGENTS.md map + docs/]
+    end
+
+    subgraph phase3 [Phase 3 — Sessions]
+        state[harness-state<br/>progress + features]
+        lifecycle[harness-lifecycle<br/>init.sh + handoff]
+    end
+
+    subgraph phase4 [Phase 4 — Control]
+        scope[harness-scope<br/>feature_list.json]
+        verification[harness-verification<br/>tests before done]
+    end
+
+    subgraph phase5 [Phase 5 — Debug]
+        observability[harness-observability<br/>runtime visibility]
+    end
+
+    scaffold --> audit
+    audit --> instructions
+    instructions --> state
+    state --> lifecycle
+    lifecycle --> scope
+    scope --> verification
+    verification --> observability
+```
+
+```mermaid
+flowchart TD
+    need{What do you need?} -->|New project, no harness| scaffold2[harness-scaffold]
+    need -->|Score or diagnose gaps| audit2[harness-audit]
+    need -->|AGENTS.md too long or vague| instructions2[harness-instructions]
+    need -->|Agent loses context between sessions| state2[harness-state]
+    need -->|Messy session start/end| lifecycle2[harness-lifecycle]
+    need -->|Agent over-scopes or half-finishes| scope2[harness-scope]
+    need -->|Agent declares done too early| verification2[harness-verification]
+    need -->|Hard to see what the agent did| observability2[harness-observability]
+```
+
+| Subsystem | Skill | Trigger in chat |
+|-----------|-------|-----------------|
+| All | `harness-scaffold` | "Use harness-scaffold to set up this project" |
+| All | `harness-audit` | "Use harness-audit and show the score" |
+| Instructions | `harness-instructions` | "Use harness-instructions to improve AGENTS.md" |
+| State | `harness-state` | "Use harness-state to design progress files" |
+| Verification | `harness-verification` | "Use harness-verification before marking done" |
+| Scope | `harness-scope` | "Use harness-scope to fix feature_list.json" |
+| Lifecycle | `harness-lifecycle` | "Use harness-lifecycle for session handoff" |
+| Observability | `harness-observability` | "Use harness-observability to add runtime logs" |
+
 ## Installation
 
 ### Option 1 — npx (recommended)
@@ -133,9 +221,11 @@ npx harness-skills report --target .
 
 ## Using skills in a project
 
+See [Overview](#overview) for diagrams. Short version:
+
 ```
 1. npx harness-skills install
-2. npx harness-skills create --target /path/to/project
+2. npx harness-skills create --target /path/to/project   # optional
 3. In Cursor: "Use harness-scaffold — replace example features with real ones"
 4. npx harness-skills validate --target /path/to/project
 5. Improve weak subsystems with the matching skill (see learning path below)
