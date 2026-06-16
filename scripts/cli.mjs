@@ -2,10 +2,13 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { installSkills, listAvailableSkills, printInstallSkillsResult } from './lib/install-skills.mjs';
+import { installSkills, listAvailableSkills } from './lib/install-skills.mjs';
 import { printCreateHarnessResult, runCreateHarness } from './lib/run-create-harness.mjs';
 import { printValidateHarnessResult, runValidateHarness } from './lib/run-validate-harness.mjs';
 import { parseArgs } from './lib/harness-utils.mjs';
+import { c, printBanner } from './lib/cli-ui.mjs';
+import { getSkillMeta } from './lib/skill-catalog.mjs';
+import { printInstallSuccess, resolveInstallOptions } from './lib/prompt-install.mjs';
 
 const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PACKAGE_VERSION = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version;
@@ -27,12 +30,15 @@ Commands:
 Install:
   harness-engineering-skills install [--global|--project] [--dest DIR]
                                      [--skills name,name] [--force]
+                                     [--yes] [--no-interactive]
 
-  --global       Install to ~/.cursor/skills (default)
-  --project      Install to ./.cursor/skills in the current directory
-  --dest DIR     Custom destination directory
-  --skills       Comma-separated skill names (default: all)
-  --force        Overwrite existing skill directories
+  --global           Install to ~/.cursor/skills (default)
+  --project          Install to ./.cursor/skills in the current directory
+  --dest DIR         Custom destination directory
+  --skills           Comma-separated skill names (skips interactive picker)
+  --force            Overwrite existing skill directories
+  --yes, -y          Install all skills without prompts
+  --no-interactive   Same as --yes (for CI)
 
 Create:
   harness-engineering-skills create [--target DIR] [--agent-file AGENTS.md|CLAUDE.md]
@@ -55,10 +61,14 @@ Examples:
 `;
 
 async function runList() {
+  printBanner(PACKAGE_VERSION);
   const skills = await listAvailableSkills();
-  console.log('Available skills:');
+  console.log(c.bold('  Available skills\n'));
   for (const skill of skills) {
-    console.log(`  - ${skill}`);
+    const meta = getSkillMeta(skill);
+    console.log(`  ${c.cyan('◆')} ${c.bold(meta.label)} ${c.dim(`(${skill})`)}`);
+    console.log(`    ${c.yellow(meta.subsystem)} ${c.dim('·')} ${meta.hint}`);
+    console.log('');
   }
 }
 
@@ -67,14 +77,15 @@ async function runInstall(args) {
     throw new Error('Use either --global or --project, not both.');
   }
 
+  const installOptions = await resolveInstallOptions(args, { version: PACKAGE_VERSION });
   const result = await installSkills({
-    dest: args.dest,
-    project: Boolean(args.project),
-    skills: args.skills,
-    force: Boolean(args.force),
+    dest: installOptions.dest,
+    project: installOptions.project,
+    skills: installOptions.skills,
+    force: installOptions.force,
     cwd: process.cwd()
   });
-  printInstallSkillsResult(result);
+  printInstallSuccess(result);
 }
 
 async function runCreate(args) {
