@@ -1,17 +1,16 @@
 ---
 name: harness-audit
 description: >-
-  Audita y puntúa un harness existente en cinco subsistemas (instrucciones,
-  estado, verificación, alcance, ciclo de vida). Usar al evaluar un repositorio
-  agent-ready, antes de mejorar un harness, o para diagnóstico de fallos del
-  agente.
+  Audits and scores an existing harness across five subsystems (instructions,
+  state, verification, scope, lifecycle). Use when evaluating an agent-ready
+  repository, before improving a harness, or for agent failure diagnostics.
 ---
 
 # Harness Audit
 
-Evalúa qué tan preparado está un repositorio para trabajo agentic fiable. Basado en Lección 02 (cinco subsistemas) y ejercicio de auditoría del curso.
+Evaluates how prepared a repository is for reliable agentic work. Based on Lesson 02 (five subsystems) and the course audit exercise.
 
-## Ejecutar auditoría automatizada
+## Run automated audit
 
 ```bash
 node scripts/validate-harness.mjs --target /path/to/project
@@ -19,86 +18,86 @@ node scripts/validate-harness.mjs --target /path/to/project --json
 node scripts/render-assessment-html.mjs --target /path/to/project
 ```
 
-Exit code ≠ 0 si el score global < 70 (configurable con `--min-score`).
+Exit code ≠ 0 if overall score < 70 (configurable with `--min-score`).
 
-## Checklist manual por subsistema
+## Manual checklist by subsystem
 
-Califica cada subsistema del 1 al 5:
+Rate each subsystem from 1 to 5:
 
-### 1. Instrucciones (1–5)
+### 1. Instructions (1–5)
 
-- [ ] Existe `AGENTS.md` o `CLAUDE.md`
-- [ ] Tiene flujo de inicio explícito (qué leer, en qué orden)
-- [ ] Comandos de verificación listados y copiables
-- [ ] ≤ ~100 líneas en el archivo raíz (divulgación progresiva a `docs/`)
-- [ ] Definición de done clara
+- [ ] `AGENTS.md` or `CLAUDE.md` exists
+- [ ] Explicit startup flow (what to read, in what order)
+- [ ] Verification commands listed and copy-pasteable
+- [ ] ≤ ~100 lines in root file (progressive disclosure to `docs/`)
+- [ ] Clear definition of done
 
-### 2. Estado (1–5)
+### 2. State (1–5)
 
-- [ ] Existe `feature_list.json` o equivalente machine-readable
-- [ ] Existe `progress.md` o `claude-progress.md`
-- [ ] El estado refleja la realidad (no aspiracional)
-- [ ] Git history complementa el estado en disco
+- [ ] `feature_list.json` or equivalent machine-readable tracker exists
+- [ ] `progress.md` or `claude-progress.md` exists
+- [ ] State reflects reality (not aspirational)
+- [ ] Git history complements on-disk state
 
-### 3. Verificación (1–5)
+### 3. Verification (1–5)
 
-- [ ] Existe `init.sh` o comandos documentados equivalentes
-- [ ] Tests/lint/type-check son ejecutables por el agente
-- [ ] Hay smoke test o e2e documentado
-- [ ] El agente no puede marcar done sin evidencia
+- [ ] `init.sh` or equivalent documented commands exist
+- [ ] Tests/lint/type-check are runnable by the agent
+- [ ] Smoke test or e2e is documented
+- [ ] Agent cannot mark done without evidence
 
-### 4. Alcance (1–5)
+### 4. Scope (1–5)
 
-- [ ] Una feature activa a la vez
-- [ ] Features tienen criterios de verificación observables
-- [ ] Dependencias entre features documentadas
-- [ ] No hay reescritura silenciosa de la lista de features
+- [ ] One active feature at a time
+- [ ] Features have observable verification criteria
+- [ ] Dependencies between features are documented
+- [ ] No silent rewriting of the feature list
 
-### 5. Ciclo de vida (1–5)
+### 5. Lifecycle (1–5)
 
-- [ ] init.sh verifica salud del entorno antes de trabajar
-- [ ] Existe plantilla de handoff (`session-handoff.md`)
-- [ ] Checklist de estado limpio al cerrar sesión
-- [ ] Commit solo cuando es seguro reanudar
+- [ ] init.sh verifies environment health before work
+- [ ] Handoff template exists (`session-handoff.md`)
+- [ ] Clean-state checklist at session close
+- [ ] Commit only when safe to resume
 
-## Reporte al usuario
+## Report to user
 
-Formato:
+Format:
 
 ```markdown
-## Auditoría de Harness: [proyecto]
+## Harness Audit: [project]
 
-| Subsistema | Score | Estado |
-|------------|-------|--------|
-| Instrucciones | X/5 | ... |
-| Estado | X/5 | ... |
-| Verificación | X/5 | ... |
-| Alcance | X/5 | ... |
-| Ciclo de vida | X/5 | ... |
+| Subsystem | Score | Status |
+|-----------|-------|--------|
+| Instructions | X/5 | ... |
+| State | X/5 | ... |
+| Verification | X/5 | ... |
+| Scope | X/5 | ... |
+| Lifecycle | X/5 | ... |
 
-**Cuello de botella probable**: [subsistema más bajo]
+**Likely bottleneck**: [lowest subsystem]
 
-**Top 3 mejoras** (ordenadas por impacto):
+**Top 3 improvements** (ordered by impact):
 1. ...
 2. ...
 3. ...
 ```
 
-## Ablación (opcional)
+## Ablation (optional)
 
-Para cuantificar valor marginal de cada componente (Lección 02, ejercicio 2):
+To quantify marginal value of each component (Lesson 02, exercise 2):
 
-1. Fija modelo y tarea
-2. Elimina UN subsistema a la vez (ej. borrar AGENTS.md)
-3. Mide caída de rendimiento
-4. Combina con logs de fallos — la mayor caída sugiere pero no prueba el cuello de botella
+1. Fix model and task
+2. Remove ONE subsystem at a time (e.g. delete AGENTS.md)
+3. Measure performance drop
+4. Combine with failure logs — largest drop suggests but does not prove the bottleneck
 
-## Siguiente paso
+## Next step
 
-Según el subsistema más débil, invocar la skill correspondiente:
+Based on the weakest subsystem, invoke the corresponding skill:
 
-- Instrucciones → `harness-instructions`
-- Estado → `harness-state`
-- Verificación → `harness-verification`
-- Alcance → `harness-scope`
-- Ciclo de vida → `harness-lifecycle`
+- Instructions → `harness-instructions`
+- State → `harness-state`
+- Verification → `harness-verification`
+- Scope → `harness-scope`
+- Lifecycle → `harness-lifecycle`

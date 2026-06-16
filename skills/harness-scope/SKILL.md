@@ -1,108 +1,108 @@
 ---
 name: harness-scope
 description: >-
-  Controla el alcance del agente con feature_list.json: una feature a la vez,
-  criterios observables, definición de done. Usar cuando el agente sobre-alcance,
-  deje trabajo a medias, o reescriba la lista de tareas (Lecciones 07–08, Proyecto 04).
+  Controls agent scope with feature_list.json: one feature at a time, observable
+  criteria, definition of done. Use when the agent over-scopes, leaves work
+  half-finished, or rewrites the task list (Lessons 07–08, Project 04).
 ---
 
 # Harness Scope
 
-Los agentes sobre-alcancen y sub-terminan (Lección 07). Las listas de features son primitivas del harness (Lección 08): límites machine-readable que el agente no puede ignorar.
+Agents over-scope and under-finish (Lesson 07). Feature lists are harness primitives (Lesson 08): machine-readable boundaries the agent cannot ignore.
 
-## Reglas de alcance
+## Scope rules
 
-1. **Una feature activa** — solo una con `status: "in_progress"`
-2. **Prioridad explícita** — número menor = más urgente
-3. **Comportamiento observable** — `user_visible_behavior` describe qué ve el usuario
-4. **Verificación como contrato** — pasos concretos, no vagos
-5. **No reescribir la lista** — añadir features requiere justificación documentada
+1. **One active feature** — only one with `status: "in_progress"`
+2. **Explicit priority** — lower number = more urgent
+3. **Observable behavior** — `user_visible_behavior` describes what the user sees
+4. **Verification as contract** — concrete steps, not vague claims
+5. **Do not rewrite the list** — adding features requires documented justification
 
-## Anatomía de una feature
+## Feature anatomy
 
 ```json
 {
   "id": "auth-001",
   "priority": 1,
   "area": "auth",
-  "title": "Login con email y password",
-  "user_visible_behavior": "El usuario ingresa credenciales y accede al dashboard.",
+  "title": "Login with email and password",
+  "user_visible_behavior": "User enters credentials and reaches the dashboard.",
   "status": "not_started",
   "verification": [
-    "Abrir /login",
-    "Ingresar credenciales válidas",
-    "Verificar redirect a /dashboard",
-    "Verificar mensaje de error con credenciales inválidas"
+    "Open /login",
+    "Enter valid credentials",
+    "Verify redirect to /dashboard",
+    "Verify error message with invalid credentials"
   ],
   "evidence": [],
   "notes": ""
 }
 ```
 
-## Selección de feature
+## Feature selection
 
-Al inicio de sesión:
+At session start:
 
 ```
-1. Filtrar status != "passing"
-2. Ordenar por priority ASC
-3. Elegir la primera
-4. Cambiar su status a "in_progress"
-5. Trabajar SOLO en esa feature
+1. Filter status != "passing"
+2. Sort by priority ASC
+3. Pick the first
+4. Set its status to "in_progress"
+5. Work ONLY on that feature
 ```
 
-## Manejo de bloqueos
+## Handling blockers
 
-Si una feature queda bloqueada:
+If a feature is blocked:
 
 ```json
 {
   "status": "blocked",
-  "notes": "Requiere API key de Stripe — ver issue #42"
+  "notes": "Requires Stripe API key — see issue #42"
 }
 ```
 
-No saltes a otra feature sin documentar el bloqueo. No marques `passing` parcial.
+Do not jump to another feature without documenting the blocker. Do not mark partial work as `passing`.
 
-## Correcciones de soporte
+## Support fixes
 
-Cambios fuera del alcance de la feature activa solo si:
+Changes outside the active feature scope only if:
 
-- Desbloquean la feature actual (fix estrecho)
-- Son correcciones de verificación baseline rota
-- Están documentados en `notes` o `progress.md`
+- They unblock the current feature (narrow fix)
+- They repair a broken verification baseline
+- They are documented in `notes` or `progress.md`
 
-## Crear feature_list desde cero
+## Create feature_list from scratch
 
-1. Lista features user-visible (no tareas internas)
-2. Ordena por dependencia → priority
-3. Escribe verification[] como pasos que un humano puede seguir
-4. Establece reglas globales en el JSON
+1. List user-visible features (not internal tasks)
+2. Order by dependency → priority
+3. Write verification[] as steps a human can follow
+4. Set global rules in the JSON
 
-## Workflow de actualización
+## Update workflow
 
 ```
-Terminar trabajo en feature X:
-  → Ejecutar verification[] de X
-  → Si pasa: status="passing", evidence=[...]
-  → Si falla: corregir o status="blocked"
-  → Nunca: status="passing" sin evidence
+Finish work on feature X:
+  → Run verification[] for X
+  → If pass: status="passing", evidence=[...]
+  → If fail: fix or status="blocked"
+  → Never: status="passing" without evidence
 ```
 
-## Anti-patrones
+## Anti-patterns
 
-- Tres features `in_progress` simultáneas
-- Verification vaga: "funciona correctamente"
-- Borrar features incompletas de la lista
-- Implementar feature priority 5 mientras priority 1 está pendiente
+- Three features `in_progress` at once
+- Vague verification: "works correctly"
+- Deleting incomplete features from the list
+- Implementing priority 5 while priority 1 is still pending
 
-## Plantillas
+## Templates
 
-- [templates/es/feature_list.json](../../templates/es/feature_list.json)
+- [templates/feature-list.json](../../templates/feature-list.json)
 - Schema: [templates/feature-list.schema.json](../../templates/feature-list.schema.json)
 
-## Referencia del curso
+## Course reference
 
-- Lección 07: Por qué los agentes sobre-alcancen y sub-terminan
-- Lección 08: Por qué las listas de features son primitivas del harness
-- Proyecto 04: Feedback de runtime y control de alcance
+- Lesson 07: Why agents over-scope and under-finish
+- Lesson 08: Why feature lists are harness primitives
+- Project 04: Runtime feedback and scope control

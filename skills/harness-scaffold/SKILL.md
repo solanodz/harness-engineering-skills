@@ -1,72 +1,72 @@
 ---
 name: harness-scaffold
 description: >-
-  Crea un harness mínimo de producción para agentes de codificación: AGENTS.md,
-  feature_list.json, progress.md, init.sh y session-handoff.md. Usar al iniciar
-  un proyecto nuevo, al adoptar harness engineering, o cuando el usuario pida
-  configurar un entorno agentic fiable.
+  Creates a minimal production harness for coding agents: AGENTS.md,
+  feature_list.json, progress.md, init.sh, and session-handoff.md. Use when
+  starting a new project, adopting harness engineering, or when the user asks
+  to set up a reliable agentic environment.
 ---
 
 # Harness Scaffold
 
-Crea el paquete mínimo de harness para que un agente pueda iniciar, mantener alcance, verificar trabajo y reanudar entre sesiones.
+Creates the minimum harness package so an agent can start, maintain scope, verify work, and resume across sessions.
 
-Basado en [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/es/) — Proyecto 01 y biblioteca de recursos.
+Based on [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) — Project 01 and resource library.
 
-## Modelo de cinco subsistemas
+## Five-subsystem model
 
-| Subsistema | Artefacto | Propósito |
-|------------|-----------|-----------|
-| Instrucciones | `AGENTS.md` o `CLAUDE.md` | Ruta de inicio, reglas, definición de done |
-| Estado | `feature_list.json`, `progress.md` | Feature activa, evidencia, siguiente paso |
-| Verificación | `init.sh` | Comandos que el agente debe ejecutar antes de declarar done |
-| Alcance | Dependencias y criterios en feature_list | Evita sobre-alcance y trabajo a medias |
-| Ciclo de vida | `session-handoff.md`, checklist de cierre | Reinicio limpio en la próxima sesión |
+| Subsystem | Artifact | Purpose |
+|-----------|----------|---------|
+| Instructions | `AGENTS.md` or `CLAUDE.md` | Startup path, rules, definition of done |
+| State | `feature_list.json`, `progress.md` | Active feature, evidence, next step |
+| Verification | `init.sh` | Commands the agent must run before declaring done |
+| Scope | Dependencies and criteria in feature_list | Prevents over-scoping and half-finished work |
+| Lifecycle | `session-handoff.md`, clean-state checklist | Clean restart in the next session |
 
-## Primer paso
+## First step
 
-1. Inspecciona qué existe: archivos de instrucción, estado, comandos de verificación, docs, manifests.
-2. Pregunta solo lo que no puedas inferir: agente objetivo (Cursor/Claude Code), nombre del archivo, tolerancia a sobrescritura.
-3. Prefiere un harness mínimo. Añade complejidad solo cuando el problema lo exija.
+1. Inspect what exists: instruction files, state, verification commands, docs, manifests.
+2. Ask only what you cannot infer: target agent (Cursor/Claude Code), file name, overwrite tolerance.
+3. Prefer a minimal harness. Add complexity only when the problem requires it.
 
-## Crear harness
+## Create harness
 
-Si tienes acceso al repo de skills:
+If you have access to the skills repo:
 
 ```bash
 node scripts/create-harness.mjs --target /path/to/project
 ```
 
-Opciones útiles:
+Useful options:
 
-- `--agent-file CLAUDE.md` para proyectos Claude Code
+- `--agent-file CLAUDE.md` for Claude Code projects
 - `--package-manager npm|pnpm|yarn|bun`
-- `--commands "cmd one,cmd two"` para verificación custom
-- `--force` solo con confirmación explícita del usuario
+- `--commands "cmd one,cmd two"` for custom verification
+- `--force` only with explicit user confirmation
 
-Si no puedes ejecutar scripts, crea manualmente estos archivos usando las plantillas en `templates/es/` o `templates/` del repo de skills.
+If you cannot run scripts, create these files manually using templates in `templates/` (English) or `templates/es/` (Spanish) from the skills repo.
 
-## Contenido mínimo de AGENTS.md
+## Minimum AGENTS.md content
 
-Mantener ~100 líneas. Debe incluir:
+Keep ~100 lines. Must include:
 
-1. **Flujo de inicio**: leer progress → feature_list → git log → ejecutar init.sh
-2. **Reglas de trabajo**: una feature a la vez, no marcar done sin evidencia
-3. **Definición de done**: comportamiento + verificación ejecutada + evidencia registrada
-4. **Fin de sesión**: actualizar progress y feature_list, commit seguro
+1. **Startup flow**: read progress → feature_list → git log → run init.sh
+2. **Working rules**: one feature at a time, do not mark done without evidence
+3. **Definition of done**: behavior + verification executed + evidence recorded
+4. **End of session**: update progress and feature_list, safe commit
 
-Ver plantilla completa: [templates/es/AGENTS.md](../../templates/es/AGENTS.md)
+Full template: [templates/agents.md](../../templates/agents.md)
 
 ## feature_list.json
 
-Cada feature necesita:
+Each feature needs:
 
 - `id`, `priority`, `title`, `user_visible_behavior`
 - `status`: `not_started` | `in_progress` | `blocked` | `passing`
-- `verification`: pasos concretos y observables
-- `evidence`: array vacío hasta que la verificación pase
+- `verification`: concrete, observable steps
+- `evidence`: empty array until verification passes
 
-Reglas globales en el JSON:
+Global rules in the JSON:
 
 ```json
 "rules": {
@@ -78,17 +78,17 @@ Reglas globales en el JSON:
 
 ## init.sh
 
-Debe: sincronizar dependencias → ejecutar verificación baseline → mostrar comando de arranque.
+Must: sync dependencies → run baseline verification → show startup command.
 
-No apilar trabajo nuevo sobre un baseline roto.
+Do not stack new work on a broken baseline.
 
-## Después de crear
+## After creating
 
-1. Explica qué se creó y dónde
-2. Indica al usuario que reemplace las features de ejemplo con las reales del proyecto
-3. Sugiere ejecutar `harness-audit` para validar
+1. Explain what was created and where
+2. Tell the user to replace example features with real project features
+3. Suggest running `harness-audit` to validate
 
-## Recursos adicionales
+## Additional resources
 
 - [Memory Persistence](../../references/course/memory-persistence-pattern.md)
 - [Lifecycle & Bootstrap](../../references/course/lifecycle-bootstrap-pattern.md)

@@ -1,25 +1,25 @@
 ---
 name: harness-state
 description: >-
-  Diseña archivos de estado persistente (feature_list.json, progress.md) para
-  continuidad entre sesiones de agente. Usar en tareas largas, al perder contexto
-  entre sesiones, o al implementar handoff multi-sesión (Proyecto 03).
+  Designs persistent state files (feature_list.json, progress.md) for continuity
+  across agent sessions. Use for long tasks, when context is lost between sessions,
+  or when implementing multi-session handoff (Project 03).
 ---
 
 # Harness State
 
-Las tareas largas pierden continuidad si el estado vive solo en el chat (Lección 05). Persiste progreso en disco para que la próxima sesión retome exactamente donde quedó.
+Long tasks lose continuity if state lives only in chat (Lesson 05). Persist progress on disk so the next session resumes exactly where the last one stopped.
 
-## Artefactos de estado
+## State artifacts
 
-| Archivo | Rol | Actualizar |
-|---------|-----|------------|
-| `feature_list.json` | Fuente de verdad de features | Al cambiar status o añadir evidencia |
-| `progress.md` / `claude-progress.md` | Registro de sesión | Al inicio (leer) y al cierre (escribir) |
-| `session-handoff.md` | Entrega compacta | Al cerrar sesiones largas |
-| Git log | Historial de cambios | Commits descriptivos |
+| File | Role | Update when |
+|------|------|-------------|
+| `feature_list.json` | Source of truth for features | Status changes or evidence is added |
+| `progress.md` / `claude-progress.md` | Session log | At start (read) and close (write) |
+| `session-handoff.md` | Compact handoff | When closing long sessions |
+| Git log | Change history | Descriptive commits |
 
-## Reglas de feature_list.json
+## feature_list.json rules
 
 ```json
 {
@@ -31,14 +31,14 @@ Las tareas largas pierden continuidad si el estado vive solo en el chat (Lecció
 }
 ```
 
-Estados válidos:
+Valid statuses:
 
-- `not_started` — sin trabajo
-- `in_progress` — feature activa (solo una)
-- `blocked` — bloqueo documentado en `notes`
-- `passing` — verificación ejecutada + evidencia en `evidence[]`
+- `not_started` — no work yet
+- `in_progress` — active feature (only one)
+- `blocked` — blocker documented in `notes`
+- `passing` — verification run + evidence in `evidence[]`
 
-## Formato de evidence
+## Evidence format
 
 ```json
 "evidence": [
@@ -51,9 +51,9 @@ Estados válidos:
 ]
 ```
 
-No marques `passing` sin entrada en `evidence`.
+Do not mark `passing` without an entry in `evidence`.
 
-## progress.md — estructura
+## progress.md structure
 
 ```markdown
 # Progress Log
@@ -71,34 +71,34 @@ No marques `passing` sin entrada en `evidence`.
 - Next: ...
 ```
 
-## Flujo multi-sesión
+## Multi-session flow
 
-**Inicio de sesión:**
-1. Leer `progress.md` → estado verificado más reciente
-2. Leer `feature_list.json` → feature inacabada de mayor prioridad
-3. `git log --oneline -5` → cambios recientes
-4. `./init.sh` → confirmar baseline sano
+**Session start:**
+1. Read `progress.md` → most recent verified state
+2. Read `feature_list.json` → highest-priority unfinished feature
+3. `git log --oneline -5` → recent changes
+4. `./init.sh` → confirm healthy baseline
 
-**Fin de sesión:**
-1. Actualizar `progress.md` con lo hecho y lo pendiente
-2. Actualizar `feature_list.json` (status + evidence)
-3. Opcional: completar `session-handoff.md`
-4. Commit si el repo es reiniciable
+**Session end:**
+1. Update `progress.md` with what was done and what remains
+2. Update `feature_list.json` (status + evidence)
+3. Optional: complete `session-handoff.md`
+4. Commit if the repo is restartable
 
-## Anti-patrones
+## Anti-patterns
 
-- Confiar en memoria del chat
-- Marcar features done sin evidence
-- Dejar `in_progress` en múltiples features
-- Progress aspiracional ("casi listo") vs verificado
+- Relying on chat memory
+- Marking features done without evidence
+- Leaving multiple features as `in_progress`
+- Aspirational progress ("almost done") vs verified
 
-## Plantillas
+## Templates
 
-- [templates/es/claude-progress.md](../../templates/es/claude-progress.md)
-- [templates/es/session-handoff.md](../../templates/es/session-handoff.md)
-- [templates/es/feature_list.json](../../templates/es/feature_list.json)
+- [templates/progress.md](../../templates/progress.md)
+- [templates/session-handoff.md](../../templates/session-handoff.md)
+- [templates/feature-list.json](../../templates/feature-list.json)
 
-## Referencia del curso
+## Course reference
 
-- Lección 05: Por qué las tareas largas pierden continuidad
-- Proyecto 03: Continuidad entre sesiones
+- Lesson 05: Why long tasks lose continuity
+- Project 03: Continuity across sessions

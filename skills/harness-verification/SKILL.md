@@ -1,55 +1,55 @@
 ---
 name: harness-verification
 description: >-
-  Configura verificación obligatoria antes de declarar trabajo completado: tests,
-  lint, type-check, smoke/e2e. Usar cuando el agente declare victoria prematura,
-  al diseñar init.sh, o al implementar autorreflexión (Lecciones 09–10, Proyecto 05).
+  Sets up mandatory verification before declaring work complete: tests, lint,
+  type-check, smoke/e2e. Use when the agent declares premature victory, when
+  designing init.sh, or when implementing self-reflection (Lessons 09–10, Project 05).
 ---
 
 # Harness Verification
 
-Confianza ≠ corrección (Lección 09). Solo una ejecución de pipeline completo cuenta como evidencia real (Lección 10).
+Confidence ≠ correctness (Lesson 09). Only a full pipeline run counts as real evidence (Lesson 10).
 
-## Principio central
+## Core principle
 
-El agente **no puede** marcar una feature como `passing` hasta que:
+The agent **cannot** mark a feature as `passing` until:
 
-1. Ejecutó los comandos de verificación documentados
-2. Todos pasaron (o documentó fallos conocidos como `blocked`)
-3. Registró evidencia en `feature_list.json` o `progress.md`
+1. Documented verification commands were executed
+2. All passed (or known failures documented as `blocked`)
+3. Evidence recorded in `feature_list.json` or `progress.md`
 
-## Jerarquía de verificación
+## Verification hierarchy
 
 ```
-1. Unit tests        → lógica aislada
-2. Lint / format     → estilo y errores estáticos
-3. Type-check        → contratos de tipos
-4. Integration       → módulos conectados
-5. Smoke / E2E       → flujo completo observable
+1. Unit tests        → isolated logic
+2. Lint / format     → style and static errors
+3. Type-check        → type contracts
+4. Integration       → connected modules
+5. Smoke / E2E       → observable end-to-end flow
 ```
 
-Documenta todos los niveles aplicables en AGENTS.md. El mínimo viable es `./init.sh`.
+Document all applicable levels in AGENTS.md. Minimum viable path is `./init.sh`.
 
-## init.sh — contrato
+## init.sh contract
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-# 1. Instalar dependencias
-# 2. Ejecutar verificación baseline
-# 3. Mostrar comando de arranque (no lanzar por defecto)
+# 1. Install dependencies
+# 2. Run baseline verification
+# 3. Show startup command (do not launch by default)
 ```
 
-Regla: **si init.sh falla, no empieces features nuevas**. Repara el baseline primero.
+Rule: **if init.sh fails, do not start new features**. Fix the baseline first.
 
-## Comandos en AGENTS.md
+## Commands in AGENTS.md
 
-Formato explícito y copiable:
+Explicit, copy-pasteable format:
 
 ```markdown
-## Verificación
+## Verification
 
-| Nivel | Comando |
+| Level | Command |
 |-------|---------|
 | Tests | `npm test` |
 | Lint | `npm run lint` |
@@ -58,23 +58,23 @@ Formato explícito y copiable:
 | Smoke | `npm run test:e2e` |
 ```
 
-## Loop de corrección
+## Correction loop
 
 ```
-Implementar → Ejecutar verificación → ¿Pasa?
-  ├── Sí → Registrar evidencia → Marcar passing
-  └── No → Leer error → Corregir → Re-ejecutar (no declarar done)
+Implement → Run verification → Pass?
+  ├── Yes → Record evidence → Mark passing
+  └── No → Read error → Fix → Re-run (do not declare done)
 ```
 
-## Separación de roles (Proyecto 05)
+## Role separation (Project 05)
 
-Para tareas críticas, separa implementador de verificador:
+For critical tasks, separate implementer from verifier:
 
-- Agente A implementa
-- Agente B (o subagente readonly) revisa contra `verification[]` en feature_list
-- Usa [evaluator-rubric](../../templates/es/evaluator-rubric.md) como guía
+- Agent A implements
+- Agent B (or readonly subagent) reviews against `verification[]` in feature_list
+- Use [evaluator-rubric](../../templates/evaluator-rubric.md) as a guide
 
-## Evidencia mínima
+## Minimum evidence
 
 ```json
 {
@@ -87,20 +87,20 @@ Para tareas críticas, separa implementador de verificador:
 }
 ```
 
-## Anti-patrones
+## Anti-patterns
 
-- "Se ve bien" sin ejecutar tests
-- Marcar passing con tests skipped
-- Cambiar umbrales de verificación para forzar pass
-- Solo unit tests cuando la feature es user-visible (falta smoke/e2e)
+- "Looks good" without running tests
+- Marking passing with tests skipped
+- Changing verification thresholds to force a pass
+- Unit tests only when the feature is user-visible (missing smoke/e2e)
 
-## Plantillas
+## Templates
 
-- [templates/es/init.sh](../../templates/es/init.sh)
-- [templates/es/evaluator-rubric.md](../../templates/es/evaluator-rubric.md)
+- [templates/init.sh](../../templates/init.sh)
+- [templates/evaluator-rubric.md](../../templates/evaluator-rubric.md)
 
-## Referencia del curso
+## Course reference
 
-- Lección 09: Por qué los agentes declaran victoria demasiado pronto
-- Lección 10: Por qué el testing end-to-end cambia resultados
-- Proyecto 05: Autoverificación y Q&A con evidencia
+- Lesson 09: Why agents declare victory too early
+- Lesson 10: Why end-to-end testing changes outcomes
+- Project 05: Self-verification and evidence-based Q&A

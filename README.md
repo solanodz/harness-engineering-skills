@@ -1,8 +1,10 @@
 # Harness Engineering Skills
 
-Skills para [Cursor](https://cursor.com) y otros agentes de codificación, basadas en el curso [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/es/) de Walking Labs.
+Skills for [Cursor](https://cursor.com) and other coding agents, based on the [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) course by Walking Labs.
 
-Un **harness** no hace más inteligente al modelo: establece un sistema de trabajo de ciclo cerrado con instrucciones, estado, verificación, alcance y ciclo de vida de sesión. Estas skills implementan esos cinco subsistemas como workflows invocables.
+A **harness** does not make the model smarter: it establishes a closed-loop workflow with instructions, state, verification, scope, and session lifecycle. These skills implement those five subsystems as invocable workflows.
+
+**All skills are written in English by default.** Spanish templates live under `templates/es/`.
 
 ## Instalación
 
@@ -44,7 +46,7 @@ Fase 5: harness-observability                → Harness completo (P06)
 
 ## Templates
 
-Plantillas listas para copiar en `templates/` (inglés) y `templates/es/` (español):
+Copy-ready templates in `templates/` (English, default) and `templates/es/` (Spanish):
 
 - `AGENTS.md` / `CLAUDE.md` — manual de operación del agente
 - `feature_list.json` — lista de features con verificación

@@ -1,70 +1,70 @@
 ---
 name: harness-observability
 description: >-
-  Hace observable el runtime del agente: logs, métricas, trazas, estado de
-  servicios. Usar al depurar comportamiento del agente, diseñar harness capstone,
-  o cuando no se pueda ver qué hizo el agente (Lección 11, Proyecto 06).
+  Makes agent runtime observable: logs, metrics, traces, service state. Use when
+  debugging agent behavior, designing a capstone harness, or when you cannot see
+  what the agent did (Lesson 11, Project 06).
 ---
 
 # Harness Observability
 
-Si no puedes ver qué hizo el agente, no puedes arreglar lo que rompió (Lección 11). La observabilidad pertenece **dentro** del harness, no como afterthought.
+If you cannot see what the agent did, you cannot fix what it broke (Lesson 11). Observability belongs **inside** the harness, not as an afterthought.
 
-## Qué hacer observable
+## What to make observable
 
-| Señal | Para qué | Dónde |
-|-------|----------|-------|
-| Logs estructurados | Qué ejecutó, qué falló | stdout, archivos en `logs/` |
-| Estado de servicios | ¿App corriendo? ¿DB up? | health endpoints, status bar |
-| Resultados de verificación | Evidencia de pass/fail | progress.md, feature_list evidence |
-| Diff de cambios | Qué modificó el agente | git diff, git log |
-| Errores de runtime | Bugs post-implementación | console, test output |
+| Signal | Purpose | Where |
+|--------|---------|-------|
+| Structured logs | What ran, what failed | stdout, files in `logs/` |
+| Service state | Is app running? DB up? | health endpoints, status bar |
+| Verification results | Pass/fail evidence | progress.md, feature_list evidence |
+| Change diff | What the agent modified | git diff, git log |
+| Runtime errors | Post-implementation bugs | console, test output |
 
-## Patrones prácticos
+## Practical patterns
 
-### 1. Verificación con output capturado
+### 1. Verification with captured output
 
 ```bash
 npm test 2>&1 | tee .harness/last-test-run.log
 echo "Exit: $?" >> .harness/last-test-run.log
 ```
 
-El agente (y tú) pueden leer el log después.
+The agent (and you) can read the log afterward.
 
-### 2. Status visible en la app
+### 2. Visible status in the app
 
-Para apps con UI (como el proyecto capstone del curso):
+For apps with UI (like the course capstone project):
 
-- Barra de estado: docs indexados, último sync, errores
-- Indicadores de health en pantalla
-- El agente puede verificar estado sin adivinar
+- Status bar: indexed docs, last sync, errors
+- On-screen health indicators
+- Agent can verify state without guessing
 
-### 3. Directorio `.harness/` (opcional)
+### 3. `.harness/` directory (optional)
 
 ```
 .harness/
 ├── last-init.log
 ├── last-test-run.log
 ├── session-metrics.json
-└── README.md  # qué contiene cada archivo
+└── README.md  # what each file contains
 ```
 
-Añadir `.harness/*.log` a `.gitignore` si son efímeros; commitear métricas si son evidencia.
+Add `.harness/*.log` to `.gitignore` if ephemeral; commit metrics if they are evidence.
 
-### 4. Comandos de debug documentados
+### 4. Documented debug commands
 
-En AGENTS.md o session-handoff:
+In AGENTS.md or session-handoff:
 
 ```markdown
 ## Debug
-- Ver logs: `tail -50 logs/app.log`
+- View logs: `tail -50 logs/app.log`
 - Health check: `curl localhost:3000/health`
-- Estado DB: `npm run db:status`
+- DB status: `npm run db:status`
 ```
 
-## Integración con verificación
+## Integration with verification
 
-Observabilidad + verificación = evidencia completa:
+Observability + verification = complete evidence:
 
 ```json
 {
@@ -78,45 +78,45 @@ Observabilidad + verificación = evidencia completa:
 }
 ```
 
-## Diagnóstico de fallos del agente
+## Agent failure diagnosis
 
-Cuando el agente falla repetidamente:
+When the agent fails repeatedly:
 
-1. ¿Puede **ejecutar** el comando? (Gulf of Execution)
-2. ¿Puede **interpretar** el output? (Gulf of Evaluation)
-3. ¿El output es **visible** en su contexto?
-4. ¿Hay **feedback loop** para corregir?
+1. Can it **execute** the command? (Gulf of Execution)
+2. Can it **interpret** the output? (Gulf of Evaluation)
+3. Is the output **visible** in its context?
+4. Is there a **feedback loop** to correct?
 
-Cierra la brecha con harness, no con prompts más largos.
+Close the gap with harness, not longer prompts.
 
-## Ablation study (Proyecto 06)
+## Ablation study (Project 06)
 
-Para el capstone, elimina subsistemas uno a la vez y mide:
+For the capstone, remove subsystems one at a time and measure:
 
 ```
-Baseline (harness completo)     → tasa de éxito X%
-Sin observabilidad              → tasa de éxito Y%
-Sin verificación                → tasa de éxito Z%
+Baseline (full harness)     → success rate X%
+Without observability       → success rate Y%
+Without verification      → success rate Z%
 ...
 ```
 
-Documenta resultados en progress.md.
+Document results in progress.md.
 
-## Anti-patrones
+## Anti-patterns
 
-- Agente declara done sin logs de verificación
-- Errores solo en terminal efímera (no capturados)
-- Sin health check antes de smoke tests
-- Observabilidad solo en producción, no en dev harness
+- Agent declares done without verification logs
+- Errors only in ephemeral terminal (not captured)
+- No health check before smoke tests
+- Observability only in production, not in dev harness
 
-## Referencia del curso
+## Course reference
 
-- Lección 11: Por qué la observabilidad pertenece al harness
-- Proyecto 06: Harness completo con observabilidad y debugging
+- Lesson 11: Why observability belongs in the harness
+- Project 06: Full harness with observability and debugging
 - [references/course/gotchas.md](../../references/course/gotchas.md)
 
-## Skills relacionadas
+## Related skills
 
-- `harness-verification` — evidencia de pass/fail
-- `harness-lifecycle` — logs de sesión en progress/handoff
-- `harness-audit` — detectar gaps de observabilidad
+- `harness-verification` — pass/fail evidence
+- `harness-lifecycle` — session logs in progress/handoff
+- `harness-audit` — detect observability gaps

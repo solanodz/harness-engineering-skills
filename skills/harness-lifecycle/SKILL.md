@@ -1,46 +1,46 @@
 ---
 name: harness-lifecycle
 description: >-
-  Gestiona el ciclo de vida de sesión del agente: init.sh al inicio, handoff al
-  cerrar, checklist de estado limpio. Usar al iniciar/cerrar sesiones agentic,
-  al diseñar init.sh, o cuando la próxima sesión no pueda retomar (Lecciones 06, 12).
+  Manages agent session lifecycle: init.sh at start, handoff at close, clean-state
+  checklist. Use when starting/closing agentic sessions, designing init.sh, or when
+  the next session cannot resume cleanly (Lessons 06, 12).
 ---
 
 # Harness Lifecycle
 
-La inicialización necesita su propia fase (Lección 06). Cada sesión debe dejar estado limpio (Lección 12).
+Initialization needs its own phase (Lesson 06). Every session must leave clean state (Lesson 12).
 
-## Ciclo de sesión completo
+## Full session cycle
 
 ```
 START
-  1. Leer AGENTS.md / CLAUDE.md
-  2. Ejecutar ./init.sh (install + verify + health check)
-  3. Leer progress.md (qué pasó la última vez)
-  4. Leer feature_list.json (qué sigue)
+  1. Read AGENTS.md / CLAUDE.md
+  2. Run ./init.sh (install + verify + health check)
+  3. Read progress.md (what happened last time)
+  4. Read feature_list.json (what is next)
   5. git log --oneline -5
 
 SELECT
-  6. Elegir UNA feature inacabada
+  6. Pick ONE unfinished feature
   7. status → in_progress
 
 EXECUTE
-  8. Implementar
-  9. Verificar (tests, lint, type-check)
-  10. Si falla → corregir → re-verificar
-  11. Si pasa → registrar evidencia
+  8. Implement
+  9. Verify (tests, lint, type-check)
+  10. If fail → fix → re-verify
+  11. If pass → record evidence
 
 WRAP UP
-  12. Actualizar progress.md
-  13. Actualizar feature_list.json
-  14. Documentar riesgos/bloqueos
-  15. Commit (solo si es seguro reanudar)
-  16. Dejar ruta de reinicio limpia
+  12. Update progress.md
+  13. Update feature_list.json
+  14. Document risks/blockers
+  15. Commit (only if safe to resume)
+  16. Leave a clean restart path
 ```
 
 ## init.sh
 
-Fase de inicialización separada del trabajo de features:
+Separate initialization phase from feature work:
 
 ```bash
 #!/usr/bin/env bash
@@ -49,85 +49,85 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
 echo "==> Syncing dependencies"
-npm install  # adaptar al gestor del proyecto
+npm install  # adapt to project package manager
 
 echo "==> Running baseline verification"
-npm test     # adaptar comandos
+npm test     # adapt commands
 
 echo "==> Startup: npm run dev"
 echo "Set RUN_START_COMMAND=1 to launch directly."
 ```
 
-Si init.sh falla → **reparar entorno, no implementar features**.
+If init.sh fails → **fix environment, do not implement features**.
 
 ## session-handoff.md
 
-Completar al cerrar sesiones largas o antes de cambiar de agente:
+Complete when closing long sessions or before switching agents:
 
 ```markdown
-## Verificado ahora
-- Qué funciona:
-- Qué verificación se ejecutó:
+## Verified now
+- What works:
+- Verification run:
 
-## Cambiado en esta sesión
-- Código:
+## Changed this session
+- Code:
 - Harness/infra:
 
-## Roto o sin verificar
-- Defectos conocidos:
-- Riesgos para próxima sesión:
+## Broken or unverified
+- Known defects:
+- Risks for next session:
 
-## Mejor próximo paso
+## Best next step
 - Feature: [id] — [title]
-- Criterio de done:
-- Qué NO cambiar:
+- Done criteria:
+- What NOT to change:
 
-## Comandos
-- Inicio: ./init.sh
-- Verificación: ...
+## Commands
+- Start: ./init.sh
+- Verification: ...
 - Debug: ...
 ```
 
-## Checklist de estado limpio
+## Clean-state checklist
 
-Antes de terminar, verificar [clean-state-checklist.md](../../templates/es/clean-state-checklist.md):
+Before finishing, verify [clean-state-checklist.md](../../templates/clean-state-checklist.md):
 
-- [ ] init.sh funciona
-- [ ] Verificación baseline pasa
-- [ ] Progress actualizado
-- [ ] feature_list refleja realidad
-- [ ] Sin pasos a medias sin documentar
-- [ ] Próxima sesión puede continuar sin reparación manual
+- [ ] init.sh works
+- [ ] Baseline verification passes
+- [ ] Progress updated
+- [ ] feature_list reflects reality
+- [ ] No half-finished steps left undocumented
+- [ ] Next session can continue without manual repair
 
-## Reglas de commit
+## Commit rules
 
-Commit cuando:
+Commit when:
 
-- Verificación pasa (o bloqueo documentado)
-- Progress y feature_list actualizados
-- No hay archivos temporales/debug olvidados
+- Verification passes (or blocker documented)
+- Progress and feature_list updated
+- No forgotten temp/debug files
 
-No commit cuando:
+Do not commit when:
 
-- Tests rotos sin documentar
-- Feature a medias sin notas
-- init.sh fallaría en fresh checkout
+- Broken tests undocumented
+- Half-finished feature without notes
+- init.sh would fail on fresh checkout
 
-## Anti-patrones
+## Anti-patterns
 
-- Empezar a codear sin init.sh
-- Cerrar sesión sin actualizar progress
-- Commit con baseline roto
-- Handoff genérico ("se avanzó bastante")
+- Starting to code without init.sh
+- Closing session without updating progress
+- Commit with broken baseline
+- Generic handoff ("made good progress")
 
-## Plantillas
+## Templates
 
-- [templates/es/init.sh](../../templates/es/init.sh)
-- [templates/es/session-handoff.md](../../templates/es/session-handoff.md)
-- [templates/es/clean-state-checklist.md](../../templates/es/clean-state-checklist.md)
+- [templates/init.sh](../../templates/init.sh)
+- [templates/session-handoff.md](../../templates/session-handoff.md)
+- [templates/clean-state-checklist.md](../../templates/clean-state-checklist.md)
 
-## Referencia del curso
+## Course reference
 
-- Lección 06: Por qué la inicialización necesita su propia fase
-- Lección 12: Por qué cada sesión debe dejar estado limpio
-- Proyecto 03: Continuidad entre sesiones
+- Lesson 06: Why initialization needs its own phase
+- Lesson 12: Why every session must leave clean state
+- Project 03: Continuity across sessions
