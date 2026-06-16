@@ -14,18 +14,22 @@ const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 
 const PACKAGE_VERSION = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).version;
 const PACKAGE_NAME = JSON.parse(readFileSync(path.join(PACKAGE_ROOT, 'package.json'), 'utf8')).name;
 
-const HELP = `${PACKAGE_NAME} — CLI for Harness Engineering skills and project harnesses
+const HELP = `${PACKAGE_NAME} — Skills that help Cursor agents finish work reliably
+
+Quick start:
+  npx harness-skills install          Install skills into Cursor
+  npx harness-skills create --target .   Add harness files to a project (optional)
+  npx harness-skills validate --target . Score your project setup
 
 Usage:
   harness-skills <command> [options]
-  npx harness-skills <command> [options]
 
 Commands:
-  install    Copy skills into Cursor (~/.cursor/skills or project .cursor/skills)
-  create     Scaffold harness files in a target project
-  validate   Score an existing project harness (exit 1 if below --min-score)
-  report     Write an HTML harness assessment report
-  list       List available skills in this package
+  install    Copy skills into Cursor (use in chat: "Use harness-scaffold …")
+  create     Add AGENTS.md, init.sh, and tracking files to a project
+  validate   Score a project harness 0–100
+  report     Write an HTML assessment report
+  list       Show available skills
   help       Show this help
 
 Install:
@@ -67,7 +71,8 @@ Legacy npm name (still works):
 async function runList() {
   printBanner(PACKAGE_VERSION);
   const skills = await listAvailableSkills();
-  console.log(c.bold('  Available skills\n'));
+  console.log(c.bold('  Available skills'));
+  console.log(c.dim('  Install once, then say "Use harness-…" in Cursor\n'));
   for (const skill of skills) {
     const meta = getSkillMeta(skill);
     console.log(`  ${c.cyan('◆')} ${c.bold(meta.label)} ${c.dim(`(${skill})`)}`);

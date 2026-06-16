@@ -43,16 +43,16 @@ export async function resolveInstallOptions(args, { version } = {}) {
   let project = Boolean(args.project);
   if (!args.project && !args.global && !args.dest) {
     const scope = await promptSelect({
-      message: 'Where should skills be installed?',
+      message: 'Use skills in all projects, or only this repo?',
       options: [
         {
           value: 'global',
-          label: 'Global',
+          label: 'All projects',
           hint: defaultGlobalSkillsDir()
         },
         {
           value: 'project',
-          label: 'Project',
+          label: 'This repo only',
           hint: defaultProjectSkillsDir()
         }
       ],
@@ -63,7 +63,7 @@ export async function resolveInstallOptions(args, { version } = {}) {
 
   const dest = resolveDest({ ...args, project });
   const selectedSkills = await promptMultiselect({
-    message: 'Select skills to install',
+    message: 'Which skills do you want? (all selected by default)',
     options: skillOptions,
     initialValues: available
   });
@@ -102,23 +102,25 @@ export function printInstallSuccess({ dest, selected, results, scope }) {
   const written = results.filter((result) => result.status === 'written');
   const skipped = results.filter((result) => result.status === 'skipped');
 
-  printBox('Installation complete', [
-    `${c.green('✓')} Destination: ${c.cyan(dest)}`,
-    `${c.green('✓')} Scope: ${scope}`,
-    `${c.green('✓')} Installed: ${written.length} · Skipped: ${skipped.length}`
+  printBox('Ready to use in Cursor', [
+    `${c.green('✓')} ${written.length} skill(s) installed`,
+    `${c.green('✓')} Location: ${c.cyan(dest)}`,
+    `${c.dim('Agents can now follow harness workflows in your projects')}`
   ]);
 
   console.log('');
   for (const result of results) {
     if (result.status === 'written') {
-      console.log(`  ${c.green('✓')} ${c.bold(result.skill)} ${c.dim('→ installed')}`);
+      console.log(`  ${c.green('✓')} ${c.bold(result.skill)}`);
       continue;
     }
     console.log(`  ${c.yellow('○')} ${result.skill} ${c.dim(`(${result.reason})`)}`);
   }
 
   console.log('');
-  console.log(c.bold('  Next step in Cursor:'));
-  console.log(c.dim('  "Use harness-scaffold to set up this project"'));
+  console.log(c.bold('  Next — open a project in Cursor and say:'));
+  console.log('');
+  console.log(`  ${c.cyan('"Use harness-scaffold to set up this project"')}`);
+  console.log(`  ${c.dim('"Use harness-audit and show me the score"')}`);
   console.log('');
 }

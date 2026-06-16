@@ -1,43 +1,43 @@
 export const SKILL_CATALOG = {
   'harness-scaffold': {
     label: 'Scaffold',
-    subsystem: 'All',
-    hint: 'Create a minimal harness in new projects'
+    subsystem: 'Start here',
+    hint: 'Set up a new project the agent can resume anytime'
   },
   'harness-audit': {
     label: 'Audit',
-    subsystem: 'All',
-    hint: 'Score an existing harness across five subsystems'
+    subsystem: 'Start here',
+    hint: 'See what is weak in your setup (score 0–100)'
   },
   'harness-instructions': {
     label: 'Instructions',
-    subsystem: 'Instructions',
-    hint: 'Write AGENTS.md with progressive disclosure'
+    subsystem: 'Clarity',
+    hint: 'Short AGENTS.md so the agent knows the rules'
   },
   'harness-state': {
     label: 'State',
-    subsystem: 'State',
-    hint: 'Persist progress across agent sessions'
+    subsystem: 'Memory',
+    hint: 'Pick up where the last session left off'
   },
   'harness-verification': {
     label: 'Verification',
-    subsystem: 'Verification',
-    hint: 'Require real tests before declaring done'
+    subsystem: 'Trust',
+    hint: 'No more “done” without running tests'
   },
   'harness-scope': {
     label: 'Scope',
-    subsystem: 'Scope',
-    hint: 'Control scope with feature_list.json'
+    subsystem: 'Focus',
+    hint: 'One feature at a time, less half-finished work'
   },
   'harness-lifecycle': {
     label: 'Lifecycle',
-    subsystem: 'Lifecycle',
-    hint: 'init.sh, handoff, and clean session close'
+    subsystem: 'Sessions',
+    hint: 'Clean start and handoff every session'
   },
   'harness-observability': {
     label: 'Observability',
-    subsystem: 'Observability',
-    hint: 'Make agent runtime visible for debugging'
+    subsystem: 'Debug',
+    hint: 'See what the agent actually did'
   }
 };
 
