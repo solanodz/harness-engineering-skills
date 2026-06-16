@@ -1,207 +1,170 @@
 # Harness Engineering Skills
 
-Skills for [Cursor](https://cursor.com) and other coding agents, based on the [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) course by Walking Labs.
+Cursor skills that help coding agents **finish work reliably** — not just write code faster.
 
-A **harness** does not make the model smarter: it establishes a closed-loop workflow with instructions, state, verification, scope, and session lifecycle. These skills implement those five subsystems as invocable workflows.
+Based on [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/) by Walking Labs.
 
-## Installation
+## What you get
 
-### Option 1 — npx (recommended)
+Without a harness, agents often:
+
+- forget context between sessions
+- declare “done” without running tests
+- do too much at once and leave things half-finished
+- need you to re-explain the project every time
+
+These skills guide the agent through a proven workflow:
+
+| You get | How |
+|---------|-----|
+| **Sessions that resume cleanly** | progress files, handoffs, `init.sh` |
+| **Done means verified** | tests and checks before marking complete |
+| **One feature at a time** | scoped task list the agent follows |
+| **Clear project rules** | short `AGENTS.md` the agent reads first |
+| **Know what to fix next** | audit scores your setup 0–100 |
+
+You install the skills **once in Cursor**. Your project stays separate — skills are not copied into your app repo unless you choose to add harness files there.
+
+## Quick start
+
+**1. Install skills**
 
 ```bash
 npx harness-skills install
 ```
 
-This opens an **interactive picker** (all skills selected by default). Use ↑/↓, Space to toggle, `a` for all, `n` for none, Enter to confirm.
+Pick global (all projects) or project-only. All skills are selected by default.
 
-Install all skills without prompts:
+**2. Open your project in Cursor**
 
-```bash
-npx harness-skills install --yes
+**3. Ask the agent to use a skill**
+
+```
+Use harness-scaffold to set up this project
 ```
 
-Install skills for the current project only:
+That’s it. No config file required to start.
+
+### Optional: add harness files to a project
+
+If you want `AGENTS.md`, `init.sh`, and tracking files **inside a repo**:
 
 ```bash
-npx harness-skills install --project
+cd /path/to/your-project
+npx harness-skills create --target .
 ```
 
-Install a subset without the picker:
+Then in Cursor:
+
+```
+Use harness-scaffold — replace the example features with real ones
+```
+
+Check the result:
 
 ```bash
-npx harness-skills install --skills harness-scaffold,harness-audit
+npx harness-skills validate --target .
 ```
 
-Install from GitHub:
+## How it works
 
-```bash
-npx github:solanodz/harness-engineering-skills install
+Skills live in Cursor. Harness files (optional) live in your project.
+
+```mermaid
+flowchart LR
+    A["npx harness-skills install"] --> B[Skills in Cursor]
+    B --> C[Open your project]
+    C --> D["Ask: Use harness-…"]
+    D --> E[Agent follows the skill]
+    E --> F{Optional}
+    F --> G["create + validate in project"]
 ```
 
-> **Note:** The npm package is `harness-skills`. The name `harness-engineering` is taken on npm by another project. The legacy name `harness-engineering-skills` still works for existing installs.
+## Which skill should I use?
 
-### Option 2 — Manual copy
+Start with **scaffold** on a new project or **audit** on an existing one. Use the table below when something specific goes wrong.
 
-```bash
-git clone https://github.com/solanodz/harness-engineering-skills.git
-cp -r harness-engineering-skills/skills/* ~/.cursor/skills/
+| If this happens… | Use this skill | Say this in Cursor |
+|------------------|----------------|--------------------|
+| Starting a new project | `harness-scaffold` | Use harness-scaffold to set up this project |
+| Not sure the setup is good | `harness-audit` | Use harness-audit and show me the score |
+| `AGENTS.md` is too long or vague | `harness-instructions` | Use harness-instructions to improve AGENTS.md |
+| Agent forgets between sessions | `harness-state` | Use harness-state to add progress tracking |
+| Messy start or end of session | `harness-lifecycle` | Use harness-lifecycle for init and handoff |
+| Agent does too much at once | `harness-scope` | Use harness-scope to fix the feature list |
+| Agent says done without proof | `harness-verification` | Use harness-verification before marking done |
+| Hard to see what the agent did | `harness-observability` | Use harness-observability to improve debugging |
+
+### Suggested order (first time)
+
+```mermaid
+flowchart LR
+    A[harness-scaffold] --> B[harness-audit]
+    B --> C[harness-instructions]
+    C --> D[harness-state]
+    D --> E[harness-lifecycle]
+    E --> F[harness-scope]
+    F --> G[harness-verification]
+    G --> H[harness-observability]
 ```
 
-Or install only what you need:
+You don’t need all of them on day one. Install everything once, then invoke only what you need.
 
-```bash
-cp -r harness-engineering-skills/skills/harness-scaffold ~/.cursor/skills/
-```
+## All skills
 
-### Local development (no npm publish)
+| Skill | What it helps with |
+|-------|--------------------|
+| [harness-scaffold](skills/harness-scaffold/) | Create a minimal harness in a new project |
+| [harness-audit](skills/harness-audit/) | Score and diagnose an existing harness |
+| [harness-instructions](skills/harness-instructions/) | Write a clear, short `AGENTS.md` |
+| [harness-state](skills/harness-state/) | Persist progress between sessions |
+| [harness-verification](skills/harness-verification/) | Require real tests before “done” |
+| [harness-scope](skills/harness-scope/) | Keep the agent on one feature at a time |
+| [harness-lifecycle](skills/harness-lifecycle/) | Clean session start, handoff, and close |
+| [harness-observability](skills/harness-observability/) | Make agent runtime visible for debugging |
 
-From a clone of this repo, run the CLI directly:
+## Install options
+
+| Goal | Command |
+|------|---------|
+| Default (interactive) | `npx harness-skills install` |
+| Skip prompts | `npx harness-skills install --yes` |
+| This repo only | `npx harness-skills install --project` |
+| Pick specific skills | `npx harness-skills install --skills harness-scaffold,harness-audit` |
+| From GitHub | `npx github:solanodz/harness-engineering-skills install` |
+
+Legacy package name: `harness-engineering-skills` (still works).
+
+## CLI reference
+
+| Command | What it does |
+|---------|--------------|
+| `install` | Copy skills into Cursor |
+| `create` | Add harness files to a project |
+| `validate` | Score a project harness (0–100) |
+| `report` | HTML assessment report |
+| `list` | Show available skills |
+
+Common flags: `--target .` (project path), `--force` (overwrite), `--project` (install to current repo).
+
+## For contributors
+
+Templates live in `templates/`. Scripts: `create-harness.mjs`, `validate-harness.mjs`. Local dev:
 
 ```bash
 git clone https://github.com/solanodz/harness-engineering-skills.git
 cd harness-engineering-skills
-
-# Interactive TUI
 npm run dev:install
-
-# Other commands
-npm run dev:list
-npm run cli -- validate --target /path/to/project
 ```
 
-Or without npm scripts:
+Publishing: see [.github/PUBLISHING.md](.github/PUBLISHING.md).
 
-```bash
-node scripts/cli.mjs install
-node scripts/cli.mjs list
-```
-
-Link globally once (optional):
-
-```bash
-npm link
-harness-skills install
-```
-
-## CLI
-
-After publishing to npm (or via `npx github:...`), use the bundled CLI:
-
-| Command | Purpose |
-|---------|---------|
-| `install` | Copy skills to `~/.cursor/skills` or `.cursor/skills` (interactive by default) |
-| `create` | Scaffold harness files in a target project |
-| `validate` | Score a project harness (exit 1 if below threshold) |
-| `report` | Write an HTML assessment report |
-| `list` | List available skills in the package |
-
-```bash
-# Install all skills globally (interactive picker)
-npx harness-skills install
-
-# Install all skills without prompts
-npx harness-skills install --yes
-
-# Install selected skills into the current project
-npx harness-skills install --project --skills harness-scaffold,harness-audit
-
-# Create harness in the current directory
-npx harness-skills create --target .
-
-# Audit harness
-npx harness-skills validate --target .
-
-# HTML report
-npx harness-skills report --target .
-```
-
-### Install flags
-
-- `--global` — install to `~/.cursor/skills` (default)
-- `--project` — install to `./.cursor/skills`
-- `--dest DIR` — custom destination
-- `--skills name,name` — install a subset (default: all)
-- `--force` — overwrite existing skill directories
-
-### Create flags
-
-- `--target DIR` — project directory (default: current directory)
-- `--agent-file AGENTS.md|CLAUDE.md`
-- `--package-manager npm|pnpm|yarn|bun`
-- `--commands "cmd one,cmd two"`
-- `--force` — overwrite existing harness files
-
-## Using skills in a project
-
-```
-1. npx harness-skills install
-2. npx harness-skills create --target /path/to/project
-3. In Cursor: "Use harness-scaffold — replace example features with real ones"
-4. npx harness-skills validate --target /path/to/project
-5. Improve weak subsystems with the matching skill (see learning path below)
-```
-
-## Included skills
-
-| Skill | Subsystem | When to use |
-|-------|-----------|-------------|
-| [harness-scaffold](skills/harness-scaffold/) | All | Create a minimal harness in a new project |
-| [harness-audit](skills/harness-audit/) | All | Audit and score an existing harness |
-| [harness-instructions](skills/harness-instructions/) | Instructions | Write AGENTS.md with progressive disclosure |
-| [harness-state](skills/harness-state/) | State | Persist progress across sessions |
-| [harness-verification](skills/harness-verification/) | Verification | Prevent premature victory with real tests |
-| [harness-scope](skills/harness-scope/) | Scope | Control scope with feature_list.json |
-| [harness-lifecycle](skills/harness-lifecycle/) | Lifecycle | init.sh, handoff, and clean state on close |
-| [harness-observability](skills/harness-observability/) | Observability | Make agent runtime visible for debugging |
-
-## Learning path (course)
-
-```
-Phase 1: harness-scaffold + harness-audit     → See the problem (P01)
-Phase 2: harness-instructions                 → Agent-legible repo (P02)
-Phase 3: harness-state + harness-lifecycle    → Continuity across sessions (P03)
-Phase 4: harness-scope + harness-verification → Feedback and scope (P04–P05)
-Phase 5: harness-observability                → Full harness (P06)
-```
-
-## Templates
-
-Copy-ready templates in `templates/`:
-
-- `agents.md` — agent operating manual (copied as AGENTS.md or CLAUDE.md)
-- `feature-list.json` — feature list with verification
-- `init.sh` — install + verification at startup
-- `progress.md` — session log
-- `session-handoff.md` — handoff between sessions
-- `clean-state-checklist.md` — end-of-session checklist
-- `evaluator-rubric.md` — post-implementation review rubric
-
-## Scripts
-
-The CLI wraps these commands. You can also run them directly from a clone:
-
-```bash
-# Create minimal harness in a project
-node scripts/create-harness.mjs --target /path/to/project
-
-# Audit existing harness
-node scripts/validate-harness.mjs --target /path/to/project
-
-# HTML report
-node scripts/render-assessment-html.mjs --target /path/to/project
-```
-
-## References
+## Learn more
 
 - [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/)
 - [OpenAI: Harness engineering](https://openai.com/index/harness-engineering/)
 - [Anthropic: Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
-- [Awesome Harness Engineering](https://github.com/walkinglabs/awesome-harness-engineering)
 
 ## License
 
 MIT — adapted from [walkinglabs/learn-harness-engineering](https://github.com/walkinglabs/learn-harness-engineering).
-
-## Publishing
-
-Releases are automated via GitHub Actions when `version` in `package.json` changes on `master`. Each release publishes to npm, creates a git tag (`v1.1.0`), and opens a GitHub Release. See [.github/PUBLISHING.md](.github/PUBLISHING.md) for `NPM_TOKEN` setup.
