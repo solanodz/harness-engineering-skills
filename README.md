@@ -37,8 +37,6 @@ npx harness-skills install
 
 Pick global (all projects) or project-only. By default, skills install for **Cursor, Claude Code, and Codex**.
 
-![Interactive install TUI](docs/cli-install-tui.png)
-
 | Tool | Global path | Project path |
 |------|-------------|--------------|
 | Cursor | `~/.cursor/skills/` | `.cursor/skills/` |
