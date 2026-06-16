@@ -2,6 +2,11 @@ name: Close stale PRs
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/close-stale-prs.yml
 
 permissions:
   pull-requests: write
