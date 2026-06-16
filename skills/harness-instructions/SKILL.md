@@ -77,8 +77,7 @@ The repository is the single source of truth (Lesson 03). Instructions should be
 
 ## Templates
 
-- English: [templates/agents.md](../../templates/agents.md)
-- Spanish: [templates/es/AGENTS.md](../../templates/es/AGENTS.md)
+- [templates/agents.md](../../templates/agents.md)
 
 ## Course reference
 

@@ -9,7 +9,7 @@ Modular skills based on [Learn Harness Engineering](https://walkinglabs.github.i
 ## Structure
 
 - `skills/` — one skill per harness subsystem
-- `templates/` — English templates (default) + `templates/es/` for Spanish
+- `templates/` — copy-ready harness templates
 - `scripts/` — create-harness, validate-harness, render-assessment
 - `references/course/` — reference patterns from the original course
 
@@ -24,5 +24,5 @@ node scripts/create-harness.mjs --target /path/to/project
 
 - Keep each SKILL.md under 500 lines
 - Write skill descriptions in third person with clear triggers
-- **Skills are written in English by default**
+- **All content is written in English**
 - Attribute to walkinglabs/learn-harness-engineering (MIT)

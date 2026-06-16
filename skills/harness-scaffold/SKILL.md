@@ -44,7 +44,7 @@ Useful options:
 - `--commands "cmd one,cmd two"` for custom verification
 - `--force` only with explicit user confirmation
 
-If you cannot run scripts, create these files manually using templates in `templates/` (English) or `templates/es/` (Spanish) from the skills repo.
+If you cannot run scripts, create these files manually using templates in `templates/` from the skills repo.
 
 ## Minimum AGENTS.md content
 
