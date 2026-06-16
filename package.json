@@ -1,8 +1,21 @@
 {
   "name": "harness-engineering-skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cursor skills for Harness Engineering based on Learn Harness Engineering course",
   "license": "MIT",
+  "type": "module",
+  "bin": {
+    "harness-engineering-skills": "scripts/cli.mjs",
+    "harness-skills": "scripts/cli.mjs"
+  },
+  "files": [
+    "scripts",
+    "skills",
+    "templates",
+    "references",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "validate": "node scripts/validate-harness.mjs",
     "create-harness": "node scripts/create-harness.mjs"

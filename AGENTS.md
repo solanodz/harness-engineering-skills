@@ -18,6 +18,7 @@ Modular skills based on [Learn Harness Engineering](https://walkinglabs.github.i
 ```bash
 node scripts/validate-harness.mjs --target .
 node scripts/create-harness.mjs --target /path/to/project
+node scripts/cli.mjs list
 ```
 
 ## Rules

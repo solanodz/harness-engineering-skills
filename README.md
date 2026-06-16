@@ -6,7 +6,27 @@ A **harness** does not make the model smarter: it establishes a closed-loop work
 
 ## Installation
 
-Copy the skills to your Cursor skills directory:
+### Option 1 — npx (recommended)
+
+Install skills into Cursor globally:
+
+```bash
+npx harness-engineering-skills install
+```
+
+Install skills for the current project only:
+
+```bash
+npx harness-engineering-skills install --project
+```
+
+Install from GitHub before the package is on npm:
+
+```bash
+npx github:solanodz/harness-engineering-skills install
+```
+
+### Option 2 — Manual copy
 
 ```bash
 git clone https://github.com/solanodz/harness-engineering-skills.git
@@ -17,6 +37,61 @@ Or install only what you need:
 
 ```bash
 cp -r harness-engineering-skills/skills/harness-scaffold ~/.cursor/skills/
+```
+
+## CLI
+
+After publishing to npm (or via `npx github:...`), use the bundled CLI:
+
+| Command | Purpose |
+|---------|---------|
+| `install` | Copy skills to `~/.cursor/skills` or `.cursor/skills` |
+| `create` | Scaffold harness files in a target project |
+| `validate` | Score a project harness (exit 1 if below threshold) |
+| `report` | Write an HTML assessment report |
+| `list` | List available skills in the package |
+
+```bash
+# Install all skills globally
+npx harness-engineering-skills install
+
+# Install selected skills into the current project
+npx harness-engineering-skills install --project --skills harness-scaffold,harness-audit
+
+# Create harness in the current directory
+npx harness-engineering-skills create --target .
+
+# Audit harness
+npx harness-engineering-skills validate --target .
+
+# HTML report
+npx harness-engineering-skills report --target .
+```
+
+### Install flags
+
+- `--global` — install to `~/.cursor/skills` (default)
+- `--project` — install to `./.cursor/skills`
+- `--dest DIR` — custom destination
+- `--skills name,name` — install a subset (default: all)
+- `--force` — overwrite existing skill directories
+
+### Create flags
+
+- `--target DIR` — project directory (default: current directory)
+- `--agent-file AGENTS.md|CLAUDE.md`
+- `--package-manager npm|pnpm|yarn|bun`
+- `--commands "cmd one,cmd two"`
+- `--force` — overwrite existing harness files
+
+## Using skills in a project
+
+```
+1. npx harness-engineering-skills install
+2. npx harness-engineering-skills create --target /path/to/project
+3. In Cursor: "Use harness-scaffold — replace example features with real ones"
+4. npx harness-engineering-skills validate --target /path/to/project
+5. Improve weak subsystems with the matching skill (see learning path below)
 ```
 
 ## Included skills
@@ -55,6 +130,8 @@ Copy-ready templates in `templates/`:
 - `evaluator-rubric.md` — post-implementation review rubric
 
 ## Scripts
+
+The CLI wraps these commands. You can also run them directly from a clone:
 
 ```bash
 # Create minimal harness in a project
