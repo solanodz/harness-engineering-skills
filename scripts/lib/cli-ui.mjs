@@ -99,31 +99,44 @@ function checkbox(checked) {
   return checked ? c.green('◉') : c.dim('○');
 }
 
-function renderMultiselect(message, options, selected, cursor) {
-  stdout.write('\x1b[?25l');
-  const lines = [
-    '',
-    c.bold(`  ${message}`),
-    c.dim('  ↑/↓ move · space toggle · a all · n none · enter confirm'),
-    ''
-  ];
+function createRenderer() {
+  let lineCount = 0;
+  let cursorHidden = false;
 
-  options.forEach((option, index) => {
-    const active = index === cursor;
-    const prefix = active ? c.cyan('❯') : ' ';
-    const name = active ? c.bold(option.label) : option.label;
-    const hint = option.hint ? c.dim(` — ${option.hint}`) : '';
-    lines.push(`  ${prefix} ${checkbox(selected.has(option.value))} ${name}${hint}`);
-  });
+  function render(lines) {
+    if (!cursorHidden) {
+      stdout.write('\x1b[?25l');
+      cursorHidden = true;
+    }
 
-  lines.push('');
-  stdout.write(`\x1b[${lines.length}F`);
-  stdout.write(lines.join('\n'));
-  stdout.write('\x1b[0J');
+    if (lineCount > 0) {
+      stdout.write(`\x1b[${lineCount}A`);
+    }
+
+    for (const line of lines) {
+      stdout.write('\x1b[2K');
+      stdout.write(`${line}\n`);
+    }
+
+    if (lineCount > lines.length) {
+      const extra = lineCount - lines.length;
+      for (let i = 0; i < extra; i += 1) {
+        stdout.write('\x1b[2K\n');
+      }
+      stdout.write(`\x1b[${extra}A`);
+    }
+
+    lineCount = lines.length;
+  }
+
+  function done() {
+    stdout.write('\x1b[?25h');
+  }
+
+  return { render, done };
 }
 
-function renderSelect(message, options, cursor) {
-  stdout.write('\x1b[?25l');
+function buildSelectLines(message, options, cursor) {
   const lines = [
     '',
     c.bold(`  ${message}`),
@@ -140,9 +153,27 @@ function renderSelect(message, options, cursor) {
   });
 
   lines.push('');
-  stdout.write(`\x1b[${lines.length}F`);
-  stdout.write(lines.join('\n'));
-  stdout.write('\x1b[0J');
+  return lines;
+}
+
+function buildMultiselectLines(message, options, selected, cursor) {
+  const lines = [
+    '',
+    c.bold(`  ${message}`),
+    c.dim('  ↑/↓ move · space toggle · a all · n none · enter confirm'),
+    ''
+  ];
+
+  options.forEach((option, index) => {
+    const active = index === cursor;
+    const prefix = active ? c.cyan('❯') : ' ';
+    const name = active ? c.bold(option.label) : option.label;
+    const hint = option.hint ? c.dim(` — ${option.hint}`) : '';
+    lines.push(`  ${prefix} ${checkbox(selected.has(option.value))} ${name}${hint}`);
+  });
+
+  lines.push('');
+  return lines;
 }
 
 function cleanupRawMode(onData) {
@@ -151,7 +182,6 @@ function cleanupRawMode(onData) {
     stdin.setRawMode(false);
   }
   stdin.pause();
-  stdout.write('\x1b[?25h');
 }
 
 export function isInteractive() {
@@ -169,16 +199,19 @@ export async function promptMultiselect({
 
   const selected = new Set(initialValues);
   let cursor = 0;
+  const renderer = createRenderer();
 
   return new Promise((resolve, reject) => {
     const onData = (key) => {
       if (key === '\u0003') {
+        renderer.done();
         cleanupRawMode(onData);
         reject(new Error('Installation cancelled.'));
         return;
       }
 
       if (key === '\r' || key === '\n') {
+        renderer.done();
         cleanupRawMode(onData);
         resolve([...selected]);
         return;
@@ -206,14 +239,14 @@ export async function promptMultiselect({
         cursor = Math.min(options.length - 1, cursor + 1);
       }
 
-      renderMultiselect(message, options, selected, cursor);
+      renderer.render(buildMultiselectLines(message, options, selected, cursor));
     };
 
     stdin.setRawMode(true);
     stdin.resume();
     stdin.setEncoding('utf8');
     stdin.on('data', onData);
-    renderMultiselect(message, options, selected, cursor);
+    renderer.render(buildMultiselectLines(message, options, selected, cursor));
   });
 }
 
@@ -223,16 +256,19 @@ export async function promptSelect({ message, options, initialIndex = 0 }) {
   }
 
   let cursor = initialIndex;
+  const renderer = createRenderer();
 
   return new Promise((resolve, reject) => {
     const onData = (key) => {
       if (key === '\u0003') {
+        renderer.done();
         cleanupRawMode(onData);
         reject(new Error('Installation cancelled.'));
         return;
       }
 
       if (key === '\r' || key === '\n') {
+        renderer.done();
         cleanupRawMode(onData);
         resolve(options[cursor].value);
         return;
@@ -246,14 +282,14 @@ export async function promptSelect({ message, options, initialIndex = 0 }) {
         cursor = Math.min(options.length - 1, cursor + 1);
       }
 
-      renderSelect(message, options, cursor);
+      renderer.render(buildSelectLines(message, options, cursor));
     };
 
     stdin.setRawMode(true);
     stdin.resume();
     stdin.setEncoding('utf8');
     stdin.on('data', onData);
-    renderSelect(message, options, cursor);
+    renderer.render(buildSelectLines(message, options, cursor));
   });
 }
 
@@ -264,18 +300,20 @@ export async function promptConfirm({ message, initial = true }) {
 
   const hint = initial ? '[Y/n]' : '[y/N]';
   stdout.write(`\n  ${c.bold(message)} ${c.dim(hint)} `);
+  stdout.write('\x1b[?25l');
 
   return new Promise((resolve, reject) => {
     const onData = (key) => {
       if (key === '\u0003') {
         cleanupRawMode(onData);
+        stdout.write('\x1b[?25h');
         reject(new Error('Installation cancelled.'));
         return;
       }
 
       if (key === '\r' || key === '\n') {
         cleanupRawMode(onData);
-        stdout.write('\n');
+        stdout.write('\x1b[?25h\n');
         resolve(initial);
         return;
       }
@@ -283,13 +321,13 @@ export async function promptConfirm({ message, initial = true }) {
       const lower = key.toLowerCase();
       if (lower === 'y') {
         cleanupRawMode(onData);
-        stdout.write(`${c.green('yes')}\n`);
+        stdout.write(`\x1b[?25h${c.green('yes')}\n`);
         resolve(true);
       }
 
       if (lower === 'n') {
         cleanupRawMode(onData);
-        stdout.write(`${c.yellow('no')}\n`);
+        stdout.write(`\x1b[?25h${c.yellow('no')}\n`);
         resolve(false);
       }
     };
