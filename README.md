@@ -59,6 +59,36 @@ Or install only what you need:
 cp -r harness-engineering-skills/skills/harness-scaffold ~/.cursor/skills/
 ```
 
+### Local development (no npm publish)
+
+From a clone of this repo, run the CLI directly:
+
+```bash
+git clone https://github.com/solanodz/harness-engineering-skills.git
+cd harness-engineering-skills
+
+# Interactive TUI
+npm run dev:install
+
+# Other commands
+npm run dev:list
+npm run cli -- validate --target /path/to/project
+```
+
+Or without npm scripts:
+
+```bash
+node scripts/cli.mjs install
+node scripts/cli.mjs list
+```
+
+Link globally once (optional):
+
+```bash
+npm link
+harness-engineering-skills install
+```
+
 ## CLI
 
 After publishing to npm (or via `npx github:...`), use the bundled CLI:

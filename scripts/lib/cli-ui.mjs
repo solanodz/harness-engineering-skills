@@ -1,5 +1,7 @@
 import { stdin, stdout } from 'node:process';
 
+const INNER_WIDTH = 50;
+
 const supportsColor = Boolean(process.env.FORCE_COLOR)
   || (stdout.isTTY && !process.env.NO_COLOR);
 
@@ -14,39 +16,83 @@ export const c = {
   red: (text) => (supportsColor ? `\x1b[31m${text}\x1b[0m` : text)
 };
 
-export const BANNER = `
-${c.cyan('    ╔══════════════════════════════════════════════════════════╗')}
-${c.cyan('    ║')}  ${c.bold('⚡ Harness Engineering Skills')}                         ${c.cyan('║')}
-${c.cyan('    ║')}  ${c.dim('Reliable agent loops · scope · verify · resume')}         ${c.cyan('║')}
-${c.cyan('    ╚══════════════════════════════════════════════════════════╝')}
+function stripAnsi(text) {
+  return String(text).replace(/\x1b\[[0-9;]*m/g, '');
+}
 
-${c.dim('         ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐')}
-${c.cyan('         │')} ${c.green('inst')} ${c.cyan('│ → │')} ${c.yellow('state')} ${c.cyan('│ → │')} ${c.magenta('scope')} ${c.cyan('│ → │')} ${c.blue('verify')} ${c.cyan('│ → │')} ${c.green('ship')} ${c.cyan('│')}
-${c.dim('         └──────┘   └──────┘   └──────┘   └──────┘   └──────┘')}
-`;
+function visibleLength(text) {
+  const plain = stripAnsi(text);
+  let length = 0;
+
+  for (const char of plain) {
+    const code = char.codePointAt(0) ?? 0;
+    length += code > 0xFFFF || (code >= 0x1100 && code <= 0x115F) ? 2 : 1;
+  }
+
+  return length;
+}
+
+function padVisible(text, width) {
+  const padding = Math.max(0, width - visibleLength(text));
+  return text + ' '.repeat(padding);
+}
+
+function borderTop(width = INNER_WIDTH) {
+  return c.cyan(`  ╔${'═'.repeat(width + 2)}╗`);
+}
+
+function borderBottom(width = INNER_WIDTH) {
+  return c.cyan(`  ╚${'═'.repeat(width + 2)}╝`);
+}
+
+function borderDivider(width = INNER_WIDTH) {
+  return c.cyan(`  ╟${'─'.repeat(width + 2)}╢`);
+}
+
+function boxRow(content = '', width = INNER_WIDTH) {
+  return `${c.cyan('  ║ ')}${padVisible(content, width)}${c.cyan(' ║')}`;
+}
+
+function pipelineStep(label, colorFn) {
+  return `${c.dim('[')} ${colorFn(label)} ${c.dim(']')}`;
+}
 
 export function printBanner(version) {
-  console.log(BANNER);
+  console.log('');
+  console.log(borderTop());
+  console.log(boxRow(c.bold('Harness Engineering Skills')));
+  console.log(boxRow(c.dim('Reliable agent loops · scope · verify · resume')));
+  console.log(borderBottom());
+  console.log('');
+  console.log([
+    ' ',
+    pipelineStep('inst', c.green),
+    c.dim('->'),
+    pipelineStep('state', c.yellow),
+    c.dim('->'),
+    pipelineStep('scope', c.magenta),
+    c.dim('->'),
+    pipelineStep('verify', c.blue),
+    c.dim('->'),
+    pipelineStep('ship', c.green)
+  ].join(' '));
+  console.log('');
+
   if (version) {
     console.log(c.dim(`  v${version}\n`));
   }
 }
 
-export function printBox(title, lines = []) {
-  const width = 58;
-  console.log(c.cyan(`  ┌${'─'.repeat(width)}┐`));
-  console.log(`${c.cyan('  │')} ${c.bold(title.padEnd(width - 1))}${c.cyan('│')}`);
-  console.log(c.cyan(`  ├${'─'.repeat(width)}┤`));
-  for (const line of lines) {
-    const plain = stripAnsi(line);
-    const padding = Math.max(0, width - plain.length - 1);
-    console.log(`${c.cyan('  │')} ${line}${' '.repeat(padding)}${c.cyan('│')}`);
-  }
-  console.log(c.cyan(`  └${'─'.repeat(width)}┘`));
-}
+export function printBox(title, lines = [], width = INNER_WIDTH) {
+  console.log(borderTop(width));
+  console.log(boxRow(c.bold(title), width));
+  console.log(borderDivider(width));
 
-function stripAnsi(text) {
-  return String(text).replace(/\x1b\[[0-9;]*m/g, '');
+  for (const line of lines) {
+    console.log(boxRow(line, width));
+  }
+
+  console.log(borderBottom(width));
 }
 
 function checkbox(checked) {
@@ -71,7 +117,9 @@ function renderMultiselect(message, options, selected, cursor) {
   });
 
   lines.push('');
-  stdout.write(lines.join('\n') + '\x1b[0J');
+  stdout.write(`\x1b[${lines.length}F`);
+  stdout.write(lines.join('\n'));
+  stdout.write('\x1b[0J');
 }
 
 function renderSelect(message, options, cursor) {
@@ -92,7 +140,9 @@ function renderSelect(message, options, cursor) {
   });
 
   lines.push('');
-  stdout.write(lines.join('\n') + '\x1b[0J');
+  stdout.write(`\x1b[${lines.length}F`);
+  stdout.write(lines.join('\n'));
+  stdout.write('\x1b[0J');
 }
 
 function cleanupRawMode(onData) {
