@@ -62,7 +62,7 @@ const PIPELINE_STEPS = [
 ];
 
 const PIPELINE_BOX_WIDTH = 7;
-const PIPELINE_GAP = ' ──► ';
+const PIPELINE_GAP_WIDTH = 5;
 
 function centeredLabel(label, width) {
   const padding = Math.max(0, width - label.length);
@@ -70,17 +70,49 @@ function centeredLabel(label, width) {
   return `${' '.repeat(left)}${label}${' '.repeat(padding - left)}`;
 }
 
-function printPipeline() {
-  const tops = PIPELINE_STEPS.map(() => c.dim(`┌${'─'.repeat(PIPELINE_BOX_WIDTH + 2)}┐`));
-  const mids = PIPELINE_STEPS.map(({ label, color }) =>
-    `${c.dim('│ ')}${color(centeredLabel(label, PIPELINE_BOX_WIDTH))}${c.dim(' │')}`
-  );
-  const bots = PIPELINE_STEPS.map(() => c.dim(`└${'─'.repeat(PIPELINE_BOX_WIDTH + 2)}┘`));
-  const spacer = ' '.repeat(PIPELINE_GAP.length);
+function pipelineBox(label, color) {
+  const inner = centeredLabel(label, PIPELINE_BOX_WIDTH);
+  const horizontal = '─'.repeat(PIPELINE_BOX_WIDTH + 2);
+  return {
+    top: c.dim(`┌${horizontal}┐`),
+    mid: `${c.dim('│ ')}${color(inner)}${c.dim(' │')}`,
+    bot: c.dim(`└${horizontal}┘`)
+  };
+}
 
-  console.log(`  ${tops.join(spacer)}`);
-  console.log(`  ${mids.join(c.dim(PIPELINE_GAP))}`);
-  console.log(`  ${bots.join(spacer)}`);
+function pipelineGap(arrow = false) {
+  if (!arrow) {
+    return ' '.repeat(PIPELINE_GAP_WIDTH);
+  }
+
+  const arrowText = '->';
+  const padding = Math.max(0, PIPELINE_GAP_WIDTH - arrowText.length);
+  const left = Math.floor(padding / 2);
+  return c.dim(`${' '.repeat(left)}${arrowText}${' '.repeat(padding - left)}`);
+}
+
+function printPipeline() {
+  const boxes = PIPELINE_STEPS.map(({ label, color }) => pipelineBox(label, color));
+
+  let top = '  ';
+  let mid = '  ';
+  let bot = '  ';
+
+  for (let i = 0; i < boxes.length; i += 1) {
+    top += boxes[i].top;
+    mid += boxes[i].mid;
+    bot += boxes[i].bot;
+
+    if (i < boxes.length - 1) {
+      top += pipelineGap(false);
+      mid += pipelineGap(true);
+      bot += pipelineGap(false);
+    }
+  }
+
+  console.log(top);
+  console.log(mid);
+  console.log(bot);
 }
 
 export function printBanner(version) {
