@@ -38,6 +38,7 @@ echo "=== integration: install skills to temp dir ==="
 node scripts/cli.mjs install --yes --force --ide cursor --dest "$TMP/skills"
 test -f "$TMP/skills/harness-scaffold/SKILL.md"
 test -f "$TMP/skills/harness-verification/SKILL.md"
+test -f "$TMP/skills/harness-environment/SKILL.md"
 
 echo "=== integration: multi-IDE project install ==="
 mkdir -p "$TMP/project" && cd "$TMP/project"

@@ -2,32 +2,34 @@
 
 ## Current Objective
 
-- Goal: Verification pipeline before feature work (harness-verification)
-- Current status: feat-006 done — `./init.sh` is the single verification gate
-- Branch / commit: `cursor/harness-scaffold-e847`
+- Goal: Add harness-environment skill (feat-004)
+- Current status: skill + templates added; verification next
+- Branch / commit: `cursor/harness-environment-e847`
 
 ## Completed This Session
 
-- [x] harness-verification applied: hierarchy table, correction loop, evidence format
-- [x] init.sh hardened: `set -euo pipefail`, install/create/integration smoke
-- [x] CI simplified to `./init.sh`
-- [x] `npm run verify` / `npm test` → `./init.sh`
+- [x] `skills/harness-environment/SKILL.md`
+- [x] Templates: `environment-checklist.md`, `env.example`
+- [x] Catalog, README, diagnose cross-link, init.sh install check
 
 ## Verification Evidence
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| Full pipeline | `./init.sh` | pass | lint, smoke, integration, validate 100/100 |
-| npm alias | `npm run verify` | pass | same as init.sh |
-| Harness score | `validate --min-score 70` | pass | 100/100 |
+| Full pipeline | `./init.sh` | pending | |
+| Skill install | `test -f .../harness-environment/SKILL.md` | pending | |
 
 ## Files Changed
 
-- `AGENTS.md`, `feature_list.json`, `progress.md`, `session-handoff.md`, `init.sh`
+- `skills/harness-environment/SKILL.md`
+- `templates/environment-checklist.md`, `templates/env.example`
+- `scripts/lib/skill-catalog.mjs`, `README.md`, `init.sh`, `package.json`
+- `skills/harness-diagnose/SKILL.md`
 
 ## Decisions Made
 
-- Merge harness sections into existing AGENTS.md instead of replacing repo-specific content
+- Environment skill documents bootstrap; lifecycle still owns session cycle
+- Diagnose environment layer now points here instead of lifecycle only
 
 ## Blockers / Risks
 
@@ -42,4 +44,4 @@
 
 ## Recommended Next Step
 
-- feat-003: Tier 1 launch polish — after merging PR #14
+- After feat-004 ships: feat-005 harness-repo-knowledge

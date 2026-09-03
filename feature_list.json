@@ -74,7 +74,7 @@
       "name": "harness-environment Skill",
       "description": "New skill for reproducible dev environment setup (env vars, dependencies, bootstrap)",
       "dependencies": ["feat-006"],
-      "status": "not-started",
+      "status": "in-progress",
       "verification": ["./init.sh"],
       "evidence": []
     },

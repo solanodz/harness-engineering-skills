@@ -111,6 +111,7 @@ Start with **scaffold** on a new project or **audit** on an existing one. Use th
 | `AGENTS.md` is too long or vague | `harness-instructions` | Use harness-instructions to improve AGENTS.md |
 | Agent forgets between sessions | `harness-state` | Use harness-state to add progress tracking |
 | Messy start or end of session | `harness-lifecycle` | Use harness-lifecycle for init and handoff |
+| Fresh clone / .env / Docker / deps fail | `harness-environment` | Use harness-environment to make setup reproducible |
 | Agent does too much at once | `harness-scope` | Use harness-scope to fix the feature list |
 | Agent says done without proof | `harness-verification` | Use harness-verification before marking done |
 | Done claimed but quality is poor | `harness-evaluator` | Use harness-evaluator to review with a rubric |
@@ -126,12 +127,13 @@ flowchart LR
     B --> C[harness-instructions]
     C --> D[harness-state]
     D --> E[harness-lifecycle]
-    E --> F[harness-scope]
-    F --> G[harness-verification]
-    G --> H[harness-e2e]
-    H --> I[harness-evaluator]
-    I --> J[harness-observability]
-    J --> K[harness-diagnose]
+    E --> F[harness-environment]
+    F --> G[harness-scope]
+    G --> H[harness-verification]
+    H --> I[harness-e2e]
+    I --> J[harness-evaluator]
+    J --> K[harness-observability]
+    K --> L[harness-diagnose]
 ```
 
 You don’t need all of them on day one. Install everything once, then invoke only what you need.
@@ -150,6 +152,7 @@ You don’t need all of them on day one. Install everything once, then invoke on
 | [harness-diagnose](skills/harness-diagnose/) | Attribute failures to a harness layer; fix harness first |
 | [harness-scope](skills/harness-scope/) | Keep the agent on one feature at a time |
 | [harness-lifecycle](skills/harness-lifecycle/) | Clean session start, handoff, and close |
+| [harness-environment](skills/harness-environment/) | Reproducible toolchain, env vars, services, and init.sh health |
 | [harness-observability](skills/harness-observability/) | Make agent runtime visible for debugging |
 
 ## Install options

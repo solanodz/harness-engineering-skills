@@ -34,6 +34,11 @@ export const SKILL_CATALOG = {
     subsystem: 'Sessions',
     hint: 'Clean start and handoff every session'
   },
+  'harness-environment': {
+    label: 'Environment',
+    subsystem: 'Setup',
+    hint: 'Toolchain, env vars, and services so a fresh checkout runs'
+  },
   'harness-observability': {
     label: 'Observability',
     subsystem: 'Debug',
