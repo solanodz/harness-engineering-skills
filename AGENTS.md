@@ -13,6 +13,21 @@ Modular skills based on [Learn Harness Engineering](https://walkinglabs.github.i
 - `scripts/` — create-harness, validate-harness, CLI (`install`, `uninstall`, `create`, `validate`)
 - `references/course/` — reference patterns from the original course
 
+## Environment
+
+This repo is a zero-dependency Node CLI. No `.env`, Docker, or database.
+
+| Need | Command / file |
+|------|----------------|
+| Runtime | Node 22 (CI uses `actions/setup-node@v4` with `node-version: 22`) |
+| Install | none — no `node_modules` required |
+| Env file | none |
+| Services | none |
+| Health | `./init.sh` |
+| Start (do not auto-run) | `node scripts/cli.mjs help` |
+
+If `./init.sh` fails, fix the environment before feature work.
+
 ## Startup Workflow
 
 Before writing code:

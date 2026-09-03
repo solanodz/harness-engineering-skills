@@ -2,32 +2,32 @@
 
 ## Current Objective
 
-- Goal: Verification pipeline before feature work (harness-verification)
-- Current status: feat-006 done — `./init.sh` is the single verification gate
-- Branch / commit: `cursor/harness-scaffold-e847`
+- Goal: Ship feat-004 harness-environment
+- Current status: done — pending merge of PR #16
+- Branch / commit: `cursor/harness-environment-e847`
 
 ## Completed This Session
 
-- [x] harness-verification applied: hierarchy table, correction loop, evidence format
-- [x] init.sh hardened: `set -euo pipefail`, install/create/integration smoke
-- [x] CI simplified to `./init.sh`
-- [x] `npm run verify` / `npm test` → `./init.sh`
+- [x] Skill + templates + catalog/README
+- [x] Diagnose environment layer → harness-environment
+- [x] Dogfood Environment table + Node toolchain check
+- [x] `./init.sh` pass
 
 ## Verification Evidence
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| Full pipeline | `./init.sh` | pass | lint, smoke, integration, validate 100/100 |
-| npm alias | `npm run verify` | pass | same as init.sh |
-| Harness score | `validate --min-score 70` | pass | 100/100 |
+| Full pipeline | `./init.sh` | pass | 100/100, skill installs |
+| Catalog | `node scripts/cli.mjs list` | pass | Environment listed |
 
 ## Files Changed
 
-- `AGENTS.md`, `feature_list.json`, `progress.md`, `session-handoff.md`, `init.sh`
+- `skills/harness-environment/`, templates, catalog, README, diagnose, AGENTS.md, init.sh
 
 ## Decisions Made
 
-- Merge harness sections into existing AGENTS.md instead of replacing repo-specific content
+- This repo has no .env/services — Environment table says so explicitly
+- init.sh fails on Node < 18
 
 ## Blockers / Risks
 
@@ -42,4 +42,4 @@
 
 ## Recommended Next Step
 
-- feat-003: Tier 1 launch polish — after merging PR #14
+- Merge PR #16, then feat-005 harness-repo-knowledge
