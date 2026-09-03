@@ -2,34 +2,32 @@
 
 ## Current Objective
 
-- Goal: Add harness-environment skill (feat-004)
-- Current status: skill + templates added; verification next
+- Goal: Ship feat-004 harness-environment
+- Current status: done — pending merge of PR #16
 - Branch / commit: `cursor/harness-environment-e847`
 
 ## Completed This Session
 
-- [x] `skills/harness-environment/SKILL.md`
-- [x] Templates: `environment-checklist.md`, `env.example`
-- [x] Catalog, README, diagnose cross-link, init.sh install check
+- [x] Skill + templates + catalog/README
+- [x] Diagnose environment layer → harness-environment
+- [x] Dogfood Environment table + Node toolchain check
+- [x] `./init.sh` pass
 
 ## Verification Evidence
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| Full pipeline | `./init.sh` | pending | |
-| Skill install | `test -f .../harness-environment/SKILL.md` | pending | |
+| Full pipeline | `./init.sh` | pass | 100/100, skill installs |
+| Catalog | `node scripts/cli.mjs list` | pass | Environment listed |
 
 ## Files Changed
 
-- `skills/harness-environment/SKILL.md`
-- `templates/environment-checklist.md`, `templates/env.example`
-- `scripts/lib/skill-catalog.mjs`, `README.md`, `init.sh`, `package.json`
-- `skills/harness-diagnose/SKILL.md`
+- `skills/harness-environment/`, templates, catalog, README, diagnose, AGENTS.md, init.sh
 
 ## Decisions Made
 
-- Environment skill documents bootstrap; lifecycle still owns session cycle
-- Diagnose environment layer now points here instead of lifecycle only
+- This repo has no .env/services — Environment table says so explicitly
+- init.sh fails on Node < 18
 
 ## Blockers / Risks
 
@@ -44,4 +42,4 @@
 
 ## Recommended Next Step
 
-- After feat-004 ships: feat-005 harness-repo-knowledge
+- Merge PR #16, then feat-005 harness-repo-knowledge

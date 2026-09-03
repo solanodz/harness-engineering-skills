@@ -74,9 +74,16 @@
       "name": "harness-environment Skill",
       "description": "New skill for reproducible dev environment setup (env vars, dependencies, bootstrap)",
       "dependencies": ["feat-006"],
-      "status": "in-progress",
-      "verification": ["./init.sh"],
-      "evidence": []
+      "status": "done",
+      "verification": ["./init.sh", "node scripts/cli.mjs list"],
+      "evidence": [
+        {
+          "date": "2026-09-03",
+          "commands": ["./init.sh", "node scripts/cli.mjs list"],
+          "result": "pass",
+          "output_summary": "skill + templates shipped; list shows Environment; install copies SKILL.md; validate 100/100; Node toolchain check in init.sh"
+        }
+      ]
     },
     {
       "id": "feat-005",

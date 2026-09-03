@@ -3,21 +3,22 @@
 ## Current State
 
 **Last Updated:** 2026-09-03
-**Active Feature:** feat-004 — harness-environment skill
+**Active Feature:** feat-005 — harness-repo-knowledge (next up)
 
 ### What's Done
 
-- [x] feat-001 scaffold, feat-002 audit 100/100, feat-006 verification pipeline
-- [x] feat-003 Tier 1 (badges, SECURITY.md, GitHub description + topics)
+- [x] feat-001–003, feat-006
+- [x] feat-004 harness-environment — skill, templates, catalog, README, diagnose link
+- [x] Dogfood: AGENTS.md Environment table; init.sh Node 18+ check
+- [x] `./init.sh` pass (100/100); `list` shows Environment
 
 ### What's In Progress
 
-- [ ] feat-004: harness-environment — skill + templates + catalog/README
+- [ ] None — pick feat-005 when ready
 
 ### What's Next
 
-1. Finish feat-004 verification (`./init.sh`)
-2. feat-005: harness-repo-knowledge skill
+1. feat-005: harness-repo-knowledge skill
 
 ## Blockers / Risks
 
@@ -27,14 +28,14 @@
 
 - `skills/harness-environment/SKILL.md`
 - `templates/environment-checklist.md`, `templates/env.example`
-- `scripts/lib/skill-catalog.mjs`, `README.md`, `init.sh`
-- `skills/harness-diagnose/SKILL.md` — environment layer points here
+- `AGENTS.md`, `init.sh`, `package.json` 1.8.0
+- `scripts/lib/skill-catalog.mjs`, `README.md`, `skills/harness-diagnose/SKILL.md`
 
 ## Evidence of Completion
 
-- [ ] `./init.sh` — pending
-- [ ] New skill installs via `install --dest`
+- [x] `./init.sh` — exit 0, validate 100/100, skill installs
+- [x] `node scripts/cli.mjs list` — Environment in catalog
 
 ## Notes for Next Session
 
-GitHub description and topics are already set on the repo. Next product skill is feat-005.
+PR #16 ships feat-004. Next product skill is feat-005.

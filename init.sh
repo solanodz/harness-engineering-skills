@@ -7,6 +7,15 @@ cd "$ROOT"
 echo "=== Harness Initialization ==="
 echo ""
 
+# --- Toolchain ---
+echo "=== toolchain: Node.js ==="
+node_major=$(node -p "process.versions.node.split('.')[0]")
+if [ "$node_major" -lt 18 ]; then
+  echo "FAIL Node $(node --version) — need Node 18+"
+  exit 1
+fi
+echo "Node $(node --version)"
+
 # --- Static / lint ---
 echo "=== lint: SKILL.md line counts (max 500) ==="
 violations=0
