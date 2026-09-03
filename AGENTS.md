@@ -12,6 +12,7 @@ Modular skills based on [Learn Harness Engineering](https://walkinglabs.github.i
 - `templates/` — copy-ready harness templates
 - `scripts/` — create-harness, validate-harness, CLI (`install`, `uninstall`, `create`, `validate`)
 - `references/course/` — reference patterns from the original course
+- Repo map: `docs/REPO_MAP.md` (read before exploring)
 
 ## Environment
 

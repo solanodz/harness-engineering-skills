@@ -81,6 +81,10 @@ The repository is the single source of truth (Lesson 03). Instructions should be
 4. Create docs/ only for what does not fit in the map
 5. Validate: can a new agent start using only these files?
 
+## Related skills
+
+- `harness-repo-knowledge` — `docs/REPO_MAP.md` for where code lives
+
 ## Templates
 
 - [templates/agents.md](../../templates/agents.md)

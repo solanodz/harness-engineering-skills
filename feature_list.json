@@ -90,9 +90,16 @@
       "name": "harness-repo-knowledge Skill",
       "description": "New skill for repo map and navigation so agents find code faster",
       "dependencies": ["feat-004"],
-      "status": "not-started",
-      "verification": ["./init.sh"],
-      "evidence": []
+      "status": "done",
+      "verification": ["./init.sh", "node scripts/cli.mjs list"],
+      "evidence": [
+        {
+          "date": "2026-09-03",
+          "commands": ["./init.sh", "node scripts/cli.mjs list"],
+          "result": "pass",
+          "output_summary": "skill + template + docs/REPO_MAP.md; list shows Repo map; validate 100/100"
+        }
+      ]
     }
   ]
 }
