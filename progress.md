@@ -3,26 +3,19 @@
 ## Current State
 
 **Last Updated:** 2026-09-03
-**Active Feature:** feat-005 — harness-repo-knowledge
+**Active Feature:** none — feat-005 done
 
 ### What's Done
 
 - [x] feat-004 harness-environment (v1.8.0)
-
-### What's In Progress
-
-- [ ] feat-005: skill, template, docs/REPO_MAP.md, catalog, README
+- [x] feat-005 harness-repo-knowledge (v1.9.0)
+- [x] `./init.sh` pass; catalog shows Repo map
 
 ### What's Next
 
-1. Verify with `./init.sh` and mark feat-005 done
-
-## Files Modified This Session
-
-- `skills/harness-repo-knowledge/SKILL.md`
-- `templates/repo-map.md`, `docs/REPO_MAP.md`
-- catalog, README, diagnose, instructions, AGENTS.md, init.sh
+- No open roadmap features. Next work is user-driven (maintenance, more skills, or launch).
 
 ## Evidence of Completion
 
-- [ ] `./init.sh` pending
+- [x] `./init.sh` — 100/100, skill installs
+- [x] `node scripts/cli.mjs list` — Repo map

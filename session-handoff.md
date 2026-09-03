@@ -3,18 +3,16 @@
 ## Current Objective
 
 - Goal: feat-005 harness-repo-knowledge
-- Current status: implementing
+- Current status: done — PR #17
 - Branch: `cursor/harness-repo-knowledge-e847`
 
-## Completed This Session
+## Verification Evidence
 
-- [ ] Skill + template + dogfood map
-
-## Next Session Startup
-
-1. Read `AGENTS.md` and `docs/REPO_MAP.md`.
-2. Run `./init.sh`.
+| Check | Command | Result |
+|---|---|---|
+| Full pipeline | `./init.sh` | pass |
+| Catalog | `list` | Repo map listed |
 
 ## Recommended Next Step
 
-- Finish verification and merge
+- Merge PR #17
