@@ -90,8 +90,8 @@
       "name": "harness-repo-knowledge Skill",
       "description": "New skill for repo map and navigation so agents find code faster",
       "dependencies": ["feat-004"],
-      "status": "not-started",
-      "verification": ["./init.sh"],
+      "status": "in-progress",
+      "verification": ["./init.sh", "node scripts/cli.mjs list"],
       "evidence": []
     }
   ]

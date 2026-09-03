@@ -109,6 +109,7 @@ Start with **scaffold** on a new project or **audit** on an existing one. Use th
 | Starting a new project | `harness-scaffold` | Use harness-scaffold to set up this project |
 | Not sure the setup is good | `harness-audit` | Use harness-audit and show me the score |
 | `AGENTS.md` is too long or vague | `harness-instructions` | Use harness-instructions to improve AGENTS.md |
+| Agent cannot find where code lives | `harness-repo-knowledge` | Use harness-repo-knowledge to add a repo map |
 | Agent forgets between sessions | `harness-state` | Use harness-state to add progress tracking |
 | Messy start or end of session | `harness-lifecycle` | Use harness-lifecycle for init and handoff |
 | Fresh clone / .env / Docker / deps fail | `harness-environment` | Use harness-environment to make setup reproducible |
@@ -125,15 +126,16 @@ Start with **scaffold** on a new project or **audit** on an existing one. Use th
 flowchart LR
     A[harness-scaffold] --> B[harness-audit]
     B --> C[harness-instructions]
-    C --> D[harness-state]
-    D --> E[harness-lifecycle]
-    E --> F[harness-environment]
-    F --> G[harness-scope]
-    G --> H[harness-verification]
-    H --> I[harness-e2e]
-    I --> J[harness-evaluator]
-    J --> K[harness-observability]
-    K --> L[harness-diagnose]
+    C --> D[harness-repo-knowledge]
+    D --> E[harness-state]
+    E --> F[harness-lifecycle]
+    F --> G[harness-environment]
+    G --> H[harness-scope]
+    H --> I[harness-verification]
+    I --> J[harness-e2e]
+    J --> K[harness-evaluator]
+    K --> L[harness-observability]
+    L --> M[harness-diagnose]
 ```
 
 You don’t need all of them on day one. Install everything once, then invoke only what you need.
@@ -145,6 +147,7 @@ You don’t need all of them on day one. Install everything once, then invoke on
 | [harness-scaffold](skills/harness-scaffold/) | Create a minimal harness in a new project |
 | [harness-audit](skills/harness-audit/) | Score and diagnose an existing harness |
 | [harness-instructions](skills/harness-instructions/) | Write a clear, short `AGENTS.md` |
+| [harness-repo-knowledge](skills/harness-repo-knowledge/) | Short repo map so agents find the right files |
 | [harness-state](skills/harness-state/) | Persist progress between sessions |
 | [harness-verification](skills/harness-verification/) | Require real tests before “done” |
 | [harness-e2e](skills/harness-e2e/) | End-to-end and smoke tests; executable architecture rules |

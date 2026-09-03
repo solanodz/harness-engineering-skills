@@ -14,6 +14,11 @@ export const SKILL_CATALOG = {
     subsystem: 'Clarity',
     hint: 'Short AGENTS.md so the agent knows the rules'
   },
+  'harness-repo-knowledge': {
+    label: 'Repo map',
+    subsystem: 'Clarity',
+    hint: 'Find the right files instead of exploring the whole tree'
+  },
   'harness-state': {
     label: 'State',
     subsystem: 'Memory',

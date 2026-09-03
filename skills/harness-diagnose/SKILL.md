@@ -32,7 +32,7 @@ Map every failure to exactly one primary layer (secondary layers optional):
 | Layer | Symptom | Harness fix |
 |-------|---------|-------------|
 | **Task spec** | Agent built the wrong thing | Narrow feature_list entry, sprint contract, observable `user_visible_behavior` |
-| **Context** | Agent violated "everyone knows" rules | `AGENTS.md`, module docs, `docs/` routing — see `harness-instructions` |
+| **Context** | Agent violated "everyone knows" rules or edited the wrong folder | `AGENTS.md`, `docs/REPO_MAP.md` — see `harness-instructions` and `harness-repo-knowledge` |
 | **Environment** | `pip install` / build / version hell | `init.sh`, lockfiles, `.env.example` — see `harness-environment` |
 | **Verification** | Agent said done; tests never ran or only unit tests | `./init.sh`, Definition of Done, `harness-verification`, `harness-e2e` |
 | **State** | Next session re-discovered everything | `progress.md`, handoff, feature_list evidence — see `harness-state` |
@@ -112,6 +112,7 @@ Do not treat ablation alone as bottleneck proof; use it with real failure attrib
 - `harness-verification` — close verification-layer gaps
 - `harness-evaluator` — close confidence-calibration gaps
 - `harness-environment` — toolchain, env vars, services, init.sh health
+- `harness-repo-knowledge` — repo map so agents find the right files
 - `harness-scaffold` — bootstrap missing harness artifacts
 
 ## Course reference
