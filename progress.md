@@ -15,6 +15,14 @@
 
 - No open roadmap features. Next work is user-driven (maintenance, more skills, or launch).
 
+## Blockers / Risks
+
+- None
+
+## Files Modified This Session
+
+- See `session-handoff.md`
+
 ## Evidence of Completion
 
 - [x] `./init.sh` — 100/100, skill installs
